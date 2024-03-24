@@ -11,5 +11,8 @@ package me.mycompany.sticky_rice_restaurant;
 public class MainRestaurant {
     public static void main(String[] args) {
         System.out.println("Hi!");
+        //xinchao
+        //stickrice
+        //restaurant
     }
 }
