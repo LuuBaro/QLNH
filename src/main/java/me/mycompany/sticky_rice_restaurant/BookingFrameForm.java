@@ -4,11 +4,23 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.io.File;
+import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Vector;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author WINDOWS
  */
 public class BookingFrameForm extends javax.swing.JFrame {
+
+    DefaultTableModel modeBooking;
 
     /**
      * Creates new form BillFrameForm
@@ -16,7 +28,90 @@ public class BookingFrameForm extends javax.swing.JFrame {
     public BookingFrameForm() {
         initComponents();
         setLocationRelativeTo(null);
+
+        String[] headers = {"Mã KH", "Tên khách hàng", "Số ĐT", "Mã bàn", "Ngày", "Trả trước", "Ghi chú"};
+        String[][] data = {
+            {"KH01", "Nguyễn Văn A", "0123456789", "MB01", "01/01/2024", "Đã thanh toán", "Ghi chú 1"},
+            {"KH02", "Trần Thị B", "0123456790", "MB02", "02/01/2024", "Không", "Ghi chú 2"},
+            {"KH03", "Lê Văn C", "0123456791", "MB03", "03/01/2024", "Đã thanh toán", "Ghi chú 3"},
+            {"KH04", "Phạm Thị D", "0123456792", "MB04", "04/01/2024", "Không", "Ghi chú 4"},
+            {"KH05", "Ngô Văn E", "0123456793", "MB05", "05/01/2024", "Đã thanh toán", "Ghi chú 5"},
+            {"KH06", "Đặng Thị F", "0123456794", "MB06", "06/01/2024", "Không", "Ghi chú 6"},
+            {"KH07", "Vũ Văn G", "0123456795", "MB07", "07/01/2024", "Đã thanh toán", "Ghi chú 7"},
+            {"KH08", "Bùi Thị H", "0123456796", "MB08", "08/01/2024", "Không", "Ghi chú 8"},
+            {"KH09", "Hoàng Văn I", "0123456797", "MB09", "09/01/2024", "Đã thanh toán", "Ghi chú 9"},
+            {"KH10", "Lý Thị K", "0123456798", "MB10", "10/01/2024", "Không", "Ghi chú 10"}
+        };
+        modeBooking = new DefaultTableModel(data, headers);
+        tblBooking.setModel(modeBooking);
     }
+
+    public boolean validateFrom() {
+        if (txtMaKH.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "chưa nhập mã khách hàng");
+            return false;
+        }
+        if (txtName.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "chưa nhập họ tên");
+            return false;
+        }
+        if (txtSoDT.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "chưa nhập số điện thoại");
+            return false;
+        }
+
+        String date = txtDate.getText();
+        if (txtDate.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "chưa nhập ngày đặt bàn");
+            return false;
+        } else {
+
+            try {
+                Date dateObject = DateUtil.parse(date);
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+                String strDate = formatter.format(dateObject);
+                txtDate.setText(strDate);
+            } catch (ParseException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Ngày phải ở định dang dd/MM/YYYY");
+                txtDate.requestFocus();
+                return false;
+            }
+        }
+
+        if (txtGhiChu.getText()
+                .equals("")) {
+            JOptionPane.showMessageDialog(this, "chưa nhập ghi chú");
+            return false;
+        }
+
+        return true;
+    }
+
+    private void clearForm() {
+        txtMaKH.setText("");
+        txtName.setText("");
+        txtSoDT.setText("");
+        cboMaban.setSelectedIndex(0);
+        txtDate.setText("");
+        grpTratruoc.clearSelection();
+        txtGhiChu.setText("");
+
+    }
+
+    private boolean isMaNVExist(String maNV) {
+        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            String existingMaNV = model.getValueAt(i, 0).toString();
+            if (existingMaNV.equals(maNV)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,32 +126,33 @@ public class BookingFrameForm extends javax.swing.JFrame {
         grpTratruoc = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblBooking = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnquaylai = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtMaKH = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtSoDT = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cboMaban = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtDate = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        rdoChuaThanhToan = new javax.swing.JRadioButton();
+        rdoDaThanhToan = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtGhiChu = new javax.swing.JTextArea();
         jTextField5 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -65,7 +161,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblBooking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -76,7 +172,12 @@ public class BookingFrameForm extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        tblBooking.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBookingMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tblBooking);
 
         jPanel1.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
@@ -86,29 +187,60 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton1.setForeground(new java.awt.Color(0, 153, 153));
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (3).png"))); // NOI18N
-        jButton1.setText("Thêm");
-        jPanel4.add(jButton1);
+        btnAdd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(0, 153, 153));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (3).png"))); // NOI18N
+        btnAdd.setText("Thêm");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnAdd);
 
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton2.setForeground(new java.awt.Color(0, 153, 153));
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/save1 (2).png"))); // NOI18N
-        jButton2.setText("Lưu");
-        jPanel4.add(jButton2);
+        btnSave.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(0, 153, 153));
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/save1 (2).png"))); // NOI18N
+        btnSave.setText("Lưu");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnSave);
 
-        jButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 153, 153));
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pen (1).png"))); // NOI18N
-        jButton3.setText("Sửa");
-        jPanel4.add(jButton3);
+        btnEdit.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(0, 153, 153));
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pen (1).png"))); // NOI18N
+        btnEdit.setText("Sửa");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnEdit);
 
-        jButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton4.setForeground(new java.awt.Color(0, 153, 153));
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (2).png"))); // NOI18N
-        jButton4.setText("Xóa");
-        jPanel4.add(jButton4);
+        btnDelete.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(0, 153, 153));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (2).png"))); // NOI18N
+        btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnDelete);
+
+        btnquaylai.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnquaylai.setForeground(new java.awt.Color(0, 153, 153));
+        btnquaylai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/return.png"))); // NOI18N
+        btnquaylai.setText("Quay lại");
+        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnquaylaiActionPerformed(evt);
+            }
+        });
+        jPanel4.add(btnquaylai);
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.PAGE_END);
 
@@ -121,6 +253,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
+        jPanel3.setBackground(new java.awt.Color(255, 255, 204));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -136,7 +269,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jTextField1, gridBagConstraints);
+        jPanel3.add(txtMaKH, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 51, 153));
@@ -153,7 +286,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jTextField2, gridBagConstraints);
+        jPanel3.add(txtName, gridBagConstraints);
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 153));
@@ -170,26 +303,26 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jTextField3, gridBagConstraints);
+        jPanel3.add(txtSoDT, gridBagConstraints);
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 51, 153));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("Mã bán");
+        jLabel4.setText("Mã bàn");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         jPanel3.add(jLabel4, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboMaban.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jComboBox1, gridBagConstraints);
+        jPanel3.add(cboMaban, gridBagConstraints);
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 153));
@@ -201,14 +334,14 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         jPanel3.add(jLabel6, gridBagConstraints);
 
-        jTextField4.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        txtDate.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.gridwidth = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jTextField4, gridBagConstraints);
+        jPanel3.add(txtDate, gridBagConstraints);
 
         jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 51, 153));
@@ -220,24 +353,24 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         jPanel3.add(jLabel7, gridBagConstraints);
 
-        grpTratruoc.add(jRadioButton1);
-        jRadioButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jRadioButton1.setForeground(new java.awt.Color(0, 51, 153));
-        jRadioButton1.setText("Không");
+        grpTratruoc.add(rdoChuaThanhToan);
+        rdoChuaThanhToan.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        rdoChuaThanhToan.setForeground(new java.awt.Color(0, 51, 153));
+        rdoChuaThanhToan.setText("Không");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jRadioButton1, gridBagConstraints);
+        jPanel3.add(rdoChuaThanhToan, gridBagConstraints);
 
-        grpTratruoc.add(jRadioButton2);
-        jRadioButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jRadioButton2.setForeground(new java.awt.Color(0, 51, 153));
-        jRadioButton2.setText("Đã thanh toán");
+        grpTratruoc.add(rdoDaThanhToan);
+        rdoDaThanhToan.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        rdoDaThanhToan.setForeground(new java.awt.Color(0, 51, 153));
+        rdoDaThanhToan.setText("Đã thanh toán");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jRadioButton2, gridBagConstraints);
+        jPanel3.add(rdoDaThanhToan, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 51, 153));
@@ -250,9 +383,9 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         jPanel3.add(jLabel8, gridBagConstraints);
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtGhiChu.setColumns(20);
+        txtGhiChu.setRows(5);
+        jScrollPane1.setViewportView(txtGhiChu);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 6;
@@ -273,6 +406,118 @@ public class BookingFrameForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+
+        String Booking = txtMaKH.getText().trim();
+
+        if (isMaNVExist(Booking)) {
+            JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại trong bảng!");
+            return; // Không thêm nếu mã nhân viên đã tồn tại
+        }
+
+        Vector dataRow = new Vector();
+        dataRow.add(Booking);
+        dataRow.add(txtName.getText().trim());
+        dataRow.add(txtSoDT.getText().trim());
+        dataRow.add(cboMaban.getSelectedItem().toString().trim());
+        dataRow.add(txtDate.getText().trim());
+        String traTruoc;
+        if (rdoChuaThanhToan.isSelected()) {
+            traTruoc = "Không";
+        } else {
+            traTruoc = "Đã thanh toán";
+        }
+        dataRow.add(traTruoc);
+
+        dataRow.add(txtGhiChu.getText().trim());
+        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
+        model.addRow(dataRow);
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void tblBookingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMouseClicked
+        // TODO add your handling code here:
+        int selectedRow = tblBooking.getSelectedRow();
+        if (selectedRow >= 0) {
+            // Lấy thông tin từ hàng được chọn
+            String maKH = tblBooking.getValueAt(selectedRow, 0).toString();
+            String tenKH = tblBooking.getValueAt(selectedRow, 1).toString();
+            String soDT = tblBooking.getValueAt(selectedRow, 2).toString();
+            String maBan = tblBooking.getValueAt(selectedRow, 3).toString();
+            String ngay = tblBooking.getValueAt(selectedRow, 4).toString();
+            String traTruoc = tblBooking.getValueAt(selectedRow, 5).toString();
+            String ghiChu = tblBooking.getValueAt(selectedRow, 6).toString();
+
+            // Hiển thị thông tin trên các JTextField tương ứng
+            txtMaKH.setText(maKH);
+            txtName.setText(tenKH);
+            txtSoDT.setText(soDT);
+            cboMaban.setSelectedItem(ABORT);
+            txtDate.setText(ngay);
+            if (rdoDaThanhToan.isSelected()) {
+
+            } else if (rdoChuaThanhToan.isSelected()) {
+
+            }
+            txtGhiChu.setText(ghiChu);
+        }
+    }//GEN-LAST:event_tblBookingMouseClicked
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
+        // TODO add your handling code here:
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(null);
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File fname = fileChooser.getSelectedFile();
+            try {
+                PrintWriter pw = new PrintWriter(fname);
+
+                pw.println(tblBooking.isShowing());
+                pw.close();;
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnSaveActionPerformed
+
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
+        // TODO add your handling code here:
+        int row = tblBooking.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để thay đổi!");
+            return;
+        }
+
+// Cập nhật dữ liệu cho dòng được chọn trong bảng "nhân viên"
+        modeBooking.setValueAt(txtMaKH.getText().trim(), row, 0);
+        modeBooking.setValueAt(txtName.getText().trim(), row, 1);
+        modeBooking.setValueAt(txtSoDT.getText().trim(), row, 2);
+        modeBooking.setValueAt(cboMaban.getSelectedItem().toString().trim(), row, 3);
+        modeBooking.setValueAt(txtDate.getText().trim(), row, 4);
+        String traTruoc = rdoChuaThanhToan.isSelected() ? "Không" : "Đã thanh toán";
+        modeBooking.setValueAt(traTruoc, row, 5);
+        modeBooking.setValueAt(txtGhiChu.getText().trim(), row, 6);
+       
+    }//GEN-LAST:event_btnEditActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+       int row = tblBooking.getSelectedRow();
+       if(row < 0){
+           JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xóa");
+           return;
+       }
+       modeBooking.removeRow(row);
+       clearForm();
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+        MainInterface_StickRice thuDonForm = new  MainInterface_StickRice() ;
+         thuDonForm.setVisible(true);
+
+        // Đóng JFrame "LoginUser" nếu bạn muốn
+        dispose();
+    }//GEN-LAST:event_btnquaylaiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -287,16 +532,24 @@ public class BookingFrameForm extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BookingFrameForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingFrameForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BookingFrameForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingFrameForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BookingFrameForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingFrameForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BookingFrameForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BookingFrameForm.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
         //</editor-fold>
@@ -316,12 +569,13 @@ public class BookingFrameForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnquaylai;
+    private javax.swing.JComboBox<String> cboMaban;
     private javax.swing.ButtonGroup grpTratruoc;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -335,16 +589,16 @@ public class BookingFrameForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JRadioButton rdoChuaThanhToan;
+    private javax.swing.JRadioButton rdoDaThanhToan;
+    private javax.swing.JTable tblBooking;
+    private javax.swing.JTextField txtDate;
+    private javax.swing.JTextArea txtGhiChu;
+    private javax.swing.JTextField txtMaKH;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtSoDT;
     // End of variables declaration//GEN-END:variables
 }
