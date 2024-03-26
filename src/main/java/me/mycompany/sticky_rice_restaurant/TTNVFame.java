@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ACER
  */
 public class TTNVFame extends javax.swing.JFrame {
-    
+
     DefaultTableModel modeNhanVien;
 
     /**
@@ -49,18 +49,18 @@ public class TTNVFame extends javax.swing.JFrame {
         txtMK.setText("");
         txtCV.setText("");
     }
-    
+
     private boolean isMaNVExist(String maNV) {
-    DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
-    int rowCount = model.getRowCount();
-    for (int i = 0; i < rowCount; i++) {
-        String existingMaNV = model.getValueAt(i, 0).toString();
-        if (existingMaNV.equals(maNV)) {
-            return true; // Mã nhân viên đã tồn tại
+        DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
+        int rowCount = model.getRowCount();
+        for (int i = 0; i < rowCount; i++) {
+            String existingMaNV = model.getValueAt(i, 0).toString();
+            if (existingMaNV.equals(maNV)) {
+                return true; // Mã nhân viên đã tồn tại
+            }
         }
+        return false; // Mã nhân viên chưa tồn tại
     }
-    return false; // Mã nhân viên chưa tồn tại
-}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -396,31 +396,29 @@ public class TTNVFame extends javax.swing.JFrame {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         String maNV = txtMaNV.getText().trim();
-    // Kiểm tra xem mã nhân viên đã tồn tại trong bảng chưa
-    if (isMaNVExist(maNV)) {
-        JOptionPane.showMessageDialog(null, "Mã nhân viên đã tồn tại trong bảng!");
-        return; // Không thêm nếu mã nhân viên đã tồn tại
-    }
-    
-    // Tiếp tục thêm nhân viên vào bảng nếu không trùng lặp mã nhân viên
-    Vector dataRow = new Vector();
-    dataRow.add(maNV);
-    // Thêm các thông tin khác vào dataRow ở đây
-    // ...
+        // Kiểm tra xem mã nhân viên đã tồn tại trong bảng chưa
+        if (isMaNVExist(maNV)) {
+            JOptionPane.showMessageDialog(null, "Mã nhân viên đã tồn tại trong bảng!");
+            return; // Không thêm nếu mã nhân viên đã tồn tại
+        }
 
-    
-        
+        // Tiếp tục thêm nhân viên vào bảng nếu không trùng lặp mã nhân viên
+        Vector dataRow = new Vector();
+        dataRow.add(maNV);
+        // Thêm các thông tin khác vào dataRow ở đây
+        // ...
+
         dataRow.add(txtTenNV.getText().trim());
         dataRow.add(txtNgSinh.getText().trim());
         dataRow.add(txtSoDT.getText().trim());
         dataRow.add(txtDC.getText().trim());
         String gioiTinh;
         if (rdoMale.isSelected()) {
-        gioiTinh = "Nam";
+            gioiTinh = "Nam";
         } else if (rdoFemale.isSelected()) {
-        gioiTinh = "Nữ";
+            gioiTinh = "Nữ";
         } else {
-        gioiTinh = ""; // Xử lý trường hợp không chọn giới tính
+            gioiTinh = ""; // Xử lý trường hợp không chọn giới tính
         }
         dataRow.add(gioiTinh);
         dataRow.add(txtTK.getText().trim());
@@ -511,36 +509,36 @@ public class TTNVFame extends javax.swing.JFrame {
         // TODO add your handling code here:
         String maNV = txtTim.getText().trim();
         for (int i = 0; i < modeNhanVien.getRowCount(); i++) {
-        String maNVTuBang = modeNhanVien.getValueAt(i, 0).toString();
-        if (maNVTuBang.equals(maNV)) {
-            // Nếu tìm thấy mã nhân viên, cập nhật thông tin vào các JTextField tương ứng
-            txtMaNV.setText(maNV);
-            txtTenNV.setText(modeNhanVien.getValueAt(i, 1).toString());
-            txtNgSinh.setText(modeNhanVien.getValueAt(i, 2).toString());
-            txtSoDT.setText(modeNhanVien.getValueAt(i, 3).toString());
-            txtDC.setText(modeNhanVien.getValueAt(i, 4).toString());
-            String gioiTinh = modeNhanVien.getValueAt(i, 5).toString();
-            if (gioiTinh.equals("Nam")) {
-                rdoMale.setSelected(true);
-            } else {
-                rdoFemale.setSelected(true);
+            String maNVTuBang = modeNhanVien.getValueAt(i, 0).toString();
+            if (maNVTuBang.equals(maNV)) {
+                // Nếu tìm thấy mã nhân viên, cập nhật thông tin vào các JTextField tương ứng
+                txtMaNV.setText(maNV);
+                txtTenNV.setText(modeNhanVien.getValueAt(i, 1).toString());
+                txtNgSinh.setText(modeNhanVien.getValueAt(i, 2).toString());
+                txtSoDT.setText(modeNhanVien.getValueAt(i, 3).toString());
+                txtDC.setText(modeNhanVien.getValueAt(i, 4).toString());
+                String gioiTinh = modeNhanVien.getValueAt(i, 5).toString();
+                if (gioiTinh.equals("Nam")) {
+                    rdoMale.setSelected(true);
+                } else {
+                    rdoFemale.setSelected(true);
+                }
+                txtTK.setText(modeNhanVien.getValueAt(i, 6).toString());
+                txtMK.setText(modeNhanVien.getValueAt(i, 7).toString());
+                txtCV.setText(modeNhanVien.getValueAt(i, 8).toString());
+                return; // Kết thúc vòng lặp khi tìm thấy mã nhân viên
+
             }
-            txtTK.setText(modeNhanVien.getValueAt(i, 6).toString());
-            txtMK.setText(modeNhanVien.getValueAt(i, 7).toString());
-            txtCV.setText(modeNhanVien.getValueAt(i, 8).toString());
-            return; // Kết thúc vòng lặp khi tìm thấy mã nhân viên
-        
-    }
-    // Hiển thị thông báo nếu không tìm thấy mã nhân viên
-    JOptionPane.showMessageDialog(null, "Không tìm thấy mã nhân viên: " + maNV);
-    return;
-}
+            // Hiển thị thông báo nếu không tìm thấy mã nhân viên
+            JOptionPane.showMessageDialog(null, "Không tìm thấy mã nhân viên: " + maNV);
+            return;
+        }
     }//GEN-LAST:event_btnTimActionPerformed
 
     private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
         // TODO add your handling code here:
-         MainInterface_StickRice thuDonForm = new  MainInterface_StickRice() ;
-         thuDonForm.setVisible(true);
+        MainForm thuDonForm = new MainForm();
+        thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();

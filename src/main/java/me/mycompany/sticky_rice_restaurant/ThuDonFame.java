@@ -16,8 +16,9 @@ import javax.swing.table.DefaultTableModel;
  * @author ACER
  */
 public class ThuDonFame extends javax.swing.JFrame {
+
     DefaultTableModel modeProducts;
-     private List<ThuDonFame> list = new ArrayList<>();
+    private List<ThuDonFame> list = new ArrayList<>();
 
     /**
      * Creates new form ThuDonFame
@@ -25,7 +26,7 @@ public class ThuDonFame extends javax.swing.JFrame {
     public ThuDonFame() {
         initComponents();
         setLocationRelativeTo(null);
-        
+
         String[] headers = {"Mã món ă", "Tên món ăn", "Số lượng", "Giá tiền"};
         String[][] data = {
             {"MA001", "Phở bò", "10", "50000"},
@@ -42,8 +43,8 @@ public class ThuDonFame extends javax.swing.JFrame {
         modeProducts = new DefaultTableModel(data, headers);
         tblTable.setModel(modeProducts);
     }
-    
-    public void xoaform(){
+
+    public void xoaform() {
         txtMaMA.setText("");
         txtTenMA.setText("");
         txtSL.setText("");
@@ -323,13 +324,13 @@ public class ThuDonFame extends javax.swing.JFrame {
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_formWindowOpened
 
     private void tblTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTableMouseClicked
         // TODO add your handling code here:
         int r = tblTable.getSelectedRow();
-        if (r <0) {
+        if (r < 0) {
             return;
         }
         txtMaMA.setText(tblTable.getValueAt(r, 0).toString());
@@ -374,35 +375,35 @@ public class ThuDonFame extends javax.swing.JFrame {
 
     private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
         // TODO add your handling code here:
-        
-        String maSPCanTim = txtTim.getText().trim();
-    boolean timThay = false;
-        for (int i = 0; i < tblTable.getRowCount(); i++) {
-        String maSPTrongBang = (String) tblTable.getValueAt(i, 0); // Giả sử cột đầu tiên là cột chứa mã sản phẩm
-        if (maSPTrongBang.equals(maSPCanTim)) {
-        tblTable.setRowSelectionInterval(i, i); // Chọn dòng có mã sản phẩm cần tìm
-        String MaMA = (String) tblTable.getValueAt(i, 0);
-        String tenMA = (String) tblTable.getValueAt(i, 1);
-        String slMA = (String) tblTable.getValueAt(i, 2);
-        String giatien = (String) tblTable.getValueAt(i, 3);
-        txtMaMA.setText(MaMA);
-        txtTenMA.setText(tenMA);
-        txtSL.setText(slMA);
-        txtGT.setText(giatien);
-        timThay = true;
-        break;
-        }   
-        } 
 
-    if (!timThay) {
-    JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
-}
+        String maSPCanTim = txtTim.getText().trim();
+        boolean timThay = false;
+        for (int i = 0; i < tblTable.getRowCount(); i++) {
+            String maSPTrongBang = (String) tblTable.getValueAt(i, 0); // Giả sử cột đầu tiên là cột chứa mã sản phẩm
+            if (maSPTrongBang.equals(maSPCanTim)) {
+                tblTable.setRowSelectionInterval(i, i); // Chọn dòng có mã sản phẩm cần tìm
+                String MaMA = (String) tblTable.getValueAt(i, 0);
+                String tenMA = (String) tblTable.getValueAt(i, 1);
+                String slMA = (String) tblTable.getValueAt(i, 2);
+                String giatien = (String) tblTable.getValueAt(i, 3);
+                txtMaMA.setText(MaMA);
+                txtTenMA.setText(tenMA);
+                txtSL.setText(slMA);
+                txtGT.setText(giatien);
+                timThay = true;
+                break;
+            }
+        }
+
+        if (!timThay) {
+            JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
+        }
     }//GEN-LAST:event_btnTimActionPerformed
 
     private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
         // TODO add your handling code here:
-         MainInterface_StickRice thuDonForm = new  MainInterface_StickRice() ;
-         thuDonForm.setVisible(true);
+        MainForm thuDonForm = new MainForm();
+        thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();

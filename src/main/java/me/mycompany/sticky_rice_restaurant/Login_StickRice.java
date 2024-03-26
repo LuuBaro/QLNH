@@ -29,7 +29,6 @@ public class Login_StickRice extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel6 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -37,12 +36,10 @@ public class Login_StickRice extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         btnLogin = new javax.swing.JButton();
         txtPass = new javax.swing.JPasswordField();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jLabel6.setBackground(new java.awt.Color(102, 102, 102));
-        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/demologo2.jpg"))); // NOI18N
-        jLabel6.setToolTipText("");
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -121,21 +118,12 @@ public class Login_StickRice extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(280, 280, 280)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 280, -1, -1));
+
+        jLabel6.setBackground(new java.awt.Color(102, 102, 102));
+        jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/demologo2.jpg"))); // NOI18N
+        jLabel6.setToolTipText("");
+        getContentPane().add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 534));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -144,21 +132,19 @@ public class Login_StickRice extends javax.swing.JFrame {
         // TODO add your handling code here:
         String user = txtUser.getText();
         String pass = txtPass.getText();
-        
-        if(user.isEmpty()){
+
+        if (user.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập user!");
             txtUser.requestFocus();
             return;
         }
-        if(pass.isEmpty()){
+        if (pass.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập password!");
             txtPass.requestFocus();
             return;
         }
-        
-        
-        
-        MainInterface_StickRice signUpFrame = new MainInterface_StickRice();
+
+        MainForm signUpFrame = new MainForm();
         signUpFrame.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn

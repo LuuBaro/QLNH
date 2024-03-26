@@ -110,8 +110,6 @@ public class BookingFrameForm extends javax.swing.JFrame {
         }
         return false;
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -497,22 +495,22 @@ public class BookingFrameForm extends javax.swing.JFrame {
         String traTruoc = rdoChuaThanhToan.isSelected() ? "Không" : "Đã thanh toán";
         modeBooking.setValueAt(traTruoc, row, 5);
         modeBooking.setValueAt(txtGhiChu.getText().trim(), row, 6);
-       
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       int row = tblBooking.getSelectedRow();
-       if(row < 0){
-           JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xóa");
-           return;
-       }
-       modeBooking.removeRow(row);
-       clearForm();
+        int row = tblBooking.getSelectedRow();
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xóa");
+            return;
+        }
+        modeBooking.removeRow(row);
+        clearForm();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
-        MainInterface_StickRice thuDonForm = new  MainInterface_StickRice() ;
-         thuDonForm.setVisible(true);
+        MainForm thuDonForm = new MainForm();
+        thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();
