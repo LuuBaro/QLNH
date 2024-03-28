@@ -97,6 +97,11 @@ public class MainForm extends javax.swing.JFrame {
         btnDoanhThu.setForeground(new java.awt.Color(255, 255, 255));
         btnDoanhThu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Get Revenue.png"))); // NOI18N
         btnDoanhThu.setPreferredSize(new java.awt.Dimension(100, 60));
+        btnDoanhThu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDoanhThuActionPerformed(evt);
+            }
+        });
         jPanel4.add(btnDoanhThu);
 
         btnNhanVien.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
@@ -190,6 +195,15 @@ public class MainForm extends javax.swing.JFrame {
         // TODO add your handling code here:
 
     }//GEN-LAST:event_btnThongTinActionPerformed
+
+    private void btnDoanhThuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDoanhThuActionPerformed
+        // TODO add your handling code here:
+         HDCT hdctForm = new HDCT();
+        hdctForm.setVisible(true);
+
+        // Đóng JFrame "LoginUser" nếu bạn muốn
+        dispose();
+    }//GEN-LAST:event_btnDoanhThuActionPerformed
 
     /**
      * @param args the command line arguments

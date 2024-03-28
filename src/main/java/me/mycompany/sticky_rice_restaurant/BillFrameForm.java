@@ -52,7 +52,7 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnReset = new javax.swing.JButton();
         btnAddfood = new javax.swing.JButton();
         btnDeletefood = new javax.swing.JButton();
-        btnPay = new javax.swing.JButton();
+        btnHome = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jTextField10 = new javax.swing.JTextField();
@@ -149,13 +149,18 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnDeletefood.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         jPanel1.add(btnDeletefood);
 
-        btnPay.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnPay.setForeground(new java.awt.Color(0, 51, 153));
-        btnPay.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Pay2.png"))); // NOI18N
-        btnPay.setText("Pay");
-        btnPay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnPay.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jPanel1.add(btnPay);
+        btnHome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnHome.setForeground(new java.awt.Color(0, 51, 153));
+        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Home2.png"))); // NOI18N
+        btnHome.setText("Home");
+        btnHome.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnHome.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnHome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHomeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnHome);
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
@@ -311,6 +316,15 @@ public class BillFrameForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
+        // TODO add your handling code here:
+        MainForm billForm = new MainForm();
+        billForm.setVisible(true);
+
+        // Đóng JFrame "LoginUser" nếu bạn muốn
+        dispose();
+    }//GEN-LAST:event_btnHomeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -356,7 +370,7 @@ public class BillFrameForm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAddfood;
     private javax.swing.JButton btnDeletefood;
-    private javax.swing.JButton btnPay;
+    private javax.swing.JButton btnHome;
     private javax.swing.JButton btnReset;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;

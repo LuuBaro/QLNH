@@ -15,6 +15,7 @@ public class LoginFame extends javax.swing.JFrame {
      */
     public LoginFame() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -69,7 +70,8 @@ public class LoginFame extends javax.swing.JFrame {
         jPanel2.add(jTextField2, gridBagConstraints);
 
         jButton1.setBackground(new java.awt.Color(204, 153, 255));
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(102, 0, 255));
         jButton1.setText("Login");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
