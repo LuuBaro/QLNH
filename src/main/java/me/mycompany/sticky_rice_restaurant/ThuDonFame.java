@@ -66,7 +66,7 @@ public class ThuDonFame extends javax.swing.JFrame {
         tblTable = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         txtTim = new javax.swing.JTextField();
-        btnTim = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -79,10 +79,10 @@ public class ThuDonFame extends javax.swing.JFrame {
         txtGT = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnSua = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
-        btnquaylai = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         lblHinh = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -127,25 +127,29 @@ public class ThuDonFame extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 255));
-        jLabel1.setText("Quản Lý Thực Đơn");
+        jLabel1.setText("Menu Management");
 
-        btnTim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search (1).png"))); // NOI18N
-        btnTim.setText("Tìm");
-        btnTim.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(0, 153, 153));
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Search1.png"))); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
 
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(102, 102, 255));
-        jLabel7.setText("Thông tin món ăn:");
+        jLabel7.setText("Food Information");
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setText("Mã món ăn:");
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel2.setText("ID food:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 20);
@@ -158,7 +162,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(txtMaMA, gridBagConstraints);
 
-        jLabel3.setText("Tên món ăn:");
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel3.setText("Name food:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 1.0;
@@ -171,7 +177,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(txtTenMA, gridBagConstraints);
 
-        jLabel4.setText("Số Lượng:");
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel4.setText("Quantity:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.weighty = 1.0;
@@ -184,7 +192,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(txtSL, gridBagConstraints);
 
-        jLabel5.setText("Giá Tiền:");
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel5.setText("Price:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 1.0;
@@ -200,49 +210,49 @@ public class ThuDonFame extends javax.swing.JFrame {
         jPanel5.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel5.setLayout(new java.awt.GridLayout(0, 1, 0, 5));
 
-        btnThem.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(0, 153, 153));
-        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (3).png"))); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(0, 153, 153));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Add New1.png"))); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel5.add(btnThem);
+        jPanel5.add(btnAdd);
 
-        btnSua.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnSua.setForeground(new java.awt.Color(0, 153, 153));
-        btnSua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pen (1).png"))); // NOI18N
-        btnSua.setText("Sửa");
-        btnSua.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(0, 153, 153));
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Edit1.png"))); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
-        jPanel5.add(btnSua);
+        jPanel5.add(btnEdit);
 
-        btnXoa.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(0, 153, 153));
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (2).png"))); // NOI18N
-        btnXoa.setText("Xóa");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(0, 153, 153));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/delete1.png"))); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        jPanel5.add(btnXoa);
+        jPanel5.add(btnDelete);
 
-        btnquaylai.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnquaylai.setForeground(new java.awt.Color(0, 153, 153));
-        btnquaylai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/return.png"))); // NOI18N
-        btnquaylai.setText("Quay lại");
-        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
+        btnReturn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnReturn.setForeground(new java.awt.Color(0, 153, 153));
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/U Turn to Left1.png"))); // NOI18N
+        btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnquaylaiActionPerformed(evt);
+                btnReturnActionPerformed(evt);
             }
         });
-        jPanel5.add(btnquaylai);
+        jPanel5.add(btnReturn);
 
         lblHinh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/ramen (1).png"))); // NOI18N
 
@@ -292,7 +302,7 @@ public class ThuDonFame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, 169, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(btnTim)))
+                                        .addComponent(btnSearch)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -304,7 +314,7 @@ public class ThuDonFame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtTim, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTim))
+                    .addComponent(btnSearch))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -339,7 +349,7 @@ public class ThuDonFame extends javax.swing.JFrame {
         txtGT.setText(tblTable.getValueAt(r, 3).toString());
     }//GEN-LAST:event_tblTableMouseClicked
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         Vector dataRow = new Vector();
         dataRow.add(txtMaMA.getText().trim());
@@ -347,9 +357,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         dataRow.add(txtSL.getText().trim());
         dataRow.add(txtGT.getText().trim());
         modeProducts.addRow(dataRow);
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int row = tblTable.getSelectedRow();
         if (row < 0) {
@@ -358,9 +368,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         }
         modeProducts.removeRow(row);
         xoaform();
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
         int row = tblTable.getSelectedRow();
         if (row < 0) {
@@ -371,9 +381,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         modeProducts.setValueAt(txtSL.getText().trim(), row, 1);
         modeProducts.setValueAt(txtGT.getText().trim(), row, 2);
 
-    }//GEN-LAST:event_btnSuaActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
 
         String maSPCanTim = txtTim.getText().trim();
@@ -398,16 +408,16 @@ public class ThuDonFame extends javax.swing.JFrame {
         if (!timThay) {
             JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
         }
-    }//GEN-LAST:event_btnTimActionPerformed
+    }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         // TODO add your handling code here:
         MainForm thuDonForm = new MainForm();
         thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();
-    }//GEN-LAST:event_btnquaylaiActionPerformed
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -436,6 +446,8 @@ public class ThuDonFame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -444,13 +456,12 @@ public class ThuDonFame extends javax.swing.JFrame {
             }
         });
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnSua;
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTim;
-    private javax.swing.JButton btnXoa;
-    private javax.swing.JButton btnquaylai;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

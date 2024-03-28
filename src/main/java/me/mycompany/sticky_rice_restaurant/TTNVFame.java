@@ -93,13 +93,13 @@ public class TTNVFame extends javax.swing.JFrame {
         rdoMale = new javax.swing.JRadioButton();
         rdoFemale = new javax.swing.JRadioButton();
         jPanel3 = new javax.swing.JPanel();
-        btnThem = new javax.swing.JButton();
-        btnluu = new javax.swing.JButton();
-        btnXua = new javax.swing.JButton();
-        btnXoa = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnEdit = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtTim = new javax.swing.JTextField();
-        btnTim = new javax.swing.JButton();
+        btnSearch = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         txtTK = new javax.swing.JTextField();
@@ -107,7 +107,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtCV = new javax.swing.JTextField();
         txtMK = new javax.swing.JTextField();
-        btnquaylai = new javax.swing.JButton();
+        btnReturn = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -143,11 +143,13 @@ public class TTNVFame extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(102, 102, 255));
-        jLabel1.setText("Thông Tin Nhân Viên");
+        jLabel1.setText("Staff Information");
 
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
-        jLabel2.setText("MaNV");
+        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel2.setText("ID Staff:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
@@ -157,7 +159,9 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(txtMaNV, gridBagConstraints);
 
-        jLabel3.setText("Họ Và Tên");
+        jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel3.setText("User Name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 1.0;
@@ -169,7 +173,9 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(txtTenNV, gridBagConstraints);
 
-        jLabel4.setText("Ngày Sinh");
+        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel4.setText("Birthday:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.weighty = 1.0;
@@ -181,7 +187,9 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(txtNgSinh, gridBagConstraints);
 
-        jLabel5.setText("Số ĐT");
+        jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel5.setText("Phone number:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.weighty = 1.0;
@@ -193,7 +201,9 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(txtSoDT, gridBagConstraints);
 
-        jLabel6.setText("Địa chỉ");
+        jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel6.setText("Address:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
         gridBagConstraints.weighty = 1.0;
@@ -210,7 +220,9 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(jScrollPane2, gridBagConstraints);
 
-        jLabel7.setText("Giới tính");
+        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel7.setText("Gender:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         gridBagConstraints.weighty = 1.0;
@@ -218,80 +230,86 @@ public class TTNVFame extends javax.swing.JFrame {
         jPanel2.add(jLabel7, gridBagConstraints);
 
         grpGT.add(rdoMale);
-        rdoMale.setText("Nam");
+        rdoMale.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        rdoMale.setForeground(new java.awt.Color(0, 153, 153));
+        rdoMale.setText("Male");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         jPanel2.add(rdoMale, gridBagConstraints);
 
         grpGT.add(rdoFemale);
-        rdoFemale.setText("Nữ");
+        rdoFemale.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        rdoFemale.setForeground(new java.awt.Color(0, 153, 153));
+        rdoFemale.setText("Female");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         jPanel2.add(rdoFemale, gridBagConstraints);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
-        btnThem.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnThem.setForeground(new java.awt.Color(0, 153, 153));
-        btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (3).png"))); // NOI18N
-        btnThem.setText("Thêm");
-        btnThem.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnAdd.setForeground(new java.awt.Color(0, 153, 153));
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Add New1.png"))); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnThemActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
-        jPanel3.add(btnThem);
+        jPanel3.add(btnAdd);
 
-        btnluu.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnluu.setForeground(new java.awt.Color(0, 153, 153));
-        btnluu.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/save1 (2).png"))); // NOI18N
-        btnluu.setText("Lưu");
-        btnluu.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnSave.setForeground(new java.awt.Color(0, 153, 153));
+        btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Save1.png"))); // NOI18N
+        btnSave.setText("Save");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnluuActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
-        jPanel3.add(btnluu);
+        jPanel3.add(btnSave);
 
-        btnXua.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnXua.setForeground(new java.awt.Color(0, 153, 153));
-        btnXua.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/pen (1).png"))); // NOI18N
-        btnXua.setText("Sữa");
-        btnXua.addActionListener(new java.awt.event.ActionListener() {
+        btnEdit.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnEdit.setForeground(new java.awt.Color(0, 153, 153));
+        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Edit1.png"))); // NOI18N
+        btnEdit.setText("Edit");
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXuaActionPerformed(evt);
+                btnEditActionPerformed(evt);
             }
         });
-        jPanel3.add(btnXua);
+        jPanel3.add(btnEdit);
 
-        btnXoa.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnXoa.setForeground(new java.awt.Color(0, 153, 153));
-        btnXoa.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/bin (2).png"))); // NOI18N
-        btnXoa.setText("Xóa");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnDelete.setForeground(new java.awt.Color(0, 153, 153));
+        btnDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/delete1.png"))); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
-        jPanel3.add(btnXoa);
+        jPanel3.add(btnDelete);
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
         jPanel4.add(txtTim);
 
-        btnTim.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnTim.setForeground(new java.awt.Color(0, 153, 153));
-        btnTim.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/search (1).png"))); // NOI18N
-        btnTim.setText("Tìm");
-        btnTim.addActionListener(new java.awt.event.ActionListener() {
+        btnSearch.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnSearch.setForeground(new java.awt.Color(0, 153, 153));
+        btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Search1.png"))); // NOI18N
+        btnSearch.setText("Search");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimActionPerformed(evt);
+                btnSearchActionPerformed(evt);
             }
         });
-        jPanel4.add(btnTim);
+        jPanel4.add(btnSearch);
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jLabel8.setText("Tài Khoản");
+        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel8.setText("Account:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.weighty = 1.0;
@@ -302,14 +320,18 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel6.add(txtTK, gridBagConstraints);
 
-        jLabel9.setText("Mật khẩu");
+        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel9.setText("Password:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 1.0;
         jPanel6.add(jLabel9, gridBagConstraints);
 
-        jLabel10.setText("Chức Vụ");
+        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel10.setText("Position:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
@@ -328,13 +350,13 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel6.add(txtMK, gridBagConstraints);
 
-        btnquaylai.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnquaylai.setForeground(new java.awt.Color(0, 153, 153));
-        btnquaylai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/return.png"))); // NOI18N
-        btnquaylai.setText("Quay lại");
-        btnquaylai.addActionListener(new java.awt.event.ActionListener() {
+        btnReturn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnReturn.setForeground(new java.awt.Color(0, 153, 153));
+        btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/U Turn to Left1.png"))); // NOI18N
+        btnReturn.setText("Return");
+        btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnquaylaiActionPerformed(evt);
+                btnReturnActionPerformed(evt);
             }
         });
 
@@ -348,12 +370,12 @@ public class TTNVFame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnquaylai))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -361,11 +383,11 @@ public class TTNVFame extends javax.swing.JFrame {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel11)
                                         .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)))
+                                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnReturn)))))
                 .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
@@ -374,7 +396,7 @@ public class TTNVFame extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(btnquaylai))
+                    .addComponent(btnReturn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -393,7 +415,7 @@ public class TTNVFame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         String maNV = txtMaNV.getText().trim();
         // Kiểm tra xem mã nhân viên đã tồn tại trong bảng chưa
@@ -426,7 +448,7 @@ public class TTNVFame extends javax.swing.JFrame {
         dataRow.add(txtCV.getText().trim());
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.addRow(dataRow);
-    }//GEN-LAST:event_btnThemActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblNhanVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhanVienMouseClicked
         // TODO add your handling code here:
@@ -452,7 +474,7 @@ public class TTNVFame extends javax.swing.JFrame {
         txtCV.setText(tblNhanVien.getValueAt(r, 8).toString());
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
-    private void btnXuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuaActionPerformed
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
         int row = tblNhanVien.getSelectedRow();
         if (row < 0) {
@@ -473,9 +495,9 @@ public class TTNVFame extends javax.swing.JFrame {
         modeNhanVien.setValueAt(txtMK.getText().trim(), row, 7);
         modeNhanVien.setValueAt(txtCV.getText().trim(), row, 8);
 
-    }//GEN-LAST:event_btnXuaActionPerformed
+    }//GEN-LAST:event_btnEditActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
         int row = tblNhanVien.getSelectedRow();
         if (row < 0) {
@@ -485,9 +507,9 @@ public class TTNVFame extends javax.swing.JFrame {
         modeNhanVien.removeRow(row);
         xoaform();
 
-    }//GEN-LAST:event_btnXoaActionPerformed
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnluuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnluuActionPerformed
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         // TODO add your handling code here:
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(null);
@@ -503,9 +525,9 @@ public class TTNVFame extends javax.swing.JFrame {
                 ex.printStackTrace();
             }
         }
-    }//GEN-LAST:event_btnluuActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void btnTimActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimActionPerformed
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
         String maNV = txtTim.getText().trim();
         for (int i = 0; i < modeNhanVien.getRowCount(); i++) {
@@ -533,16 +555,16 @@ public class TTNVFame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Không tìm thấy mã nhân viên: " + maNV);
             return;
         }
-    }//GEN-LAST:event_btnTimActionPerformed
+    }//GEN-LAST:event_btnSearchActionPerformed
 
-    private void btnquaylaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnquaylaiActionPerformed
+    private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         // TODO add your handling code here:
         MainForm thuDonForm = new MainForm();
         thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();
-    }//GEN-LAST:event_btnquaylaiActionPerformed
+    }//GEN-LAST:event_btnReturnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -571,6 +593,8 @@ public class TTNVFame extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -581,12 +605,12 @@ public class TTNVFame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTim;
-    private javax.swing.JButton btnXoa;
-    private javax.swing.JButton btnXua;
-    private javax.swing.JButton btnluu;
-    private javax.swing.JButton btnquaylai;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnReturn;
+    private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSearch;
     private javax.swing.ButtonGroup grpGT;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
