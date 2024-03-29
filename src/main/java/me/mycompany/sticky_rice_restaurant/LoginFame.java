@@ -120,19 +120,19 @@ public class LoginFame extends javax.swing.JFrame {
 
 // Kiểm tra xem có bất kỳ ô nào trống không
         if (username.isEmpty() || password.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập username và password");
+            JOptionPane.showMessageDialog(this, "Please enter your account and password");
             
         }else if(username.isEmpty()){
-             JOptionPane.showMessageDialog(this, "Vui lòng nhập username");
+             JOptionPane.showMessageDialog(this, "Please enter account");
             
         }else if(password.isEmpty()){
-              JOptionPane.showMessageDialog(this, "Vui lòng nhập password");
+              JOptionPane.showMessageDialog(this, "Please enter password");
         } else if (!username.equalsIgnoreCase("admin")) { // Kiểm tra xem user có phải là "admin" không
-            JOptionPane.showMessageDialog(this, "Tên đăng nhập không hợp lệ");
+            JOptionPane.showMessageDialog(this, "Invalid account name");
         } else if (!password.equals("123")) { // Kiểm tra xem password có là "123" không
-            JOptionPane.showMessageDialog(this, "Mật khẩu không hợp lệ");
+            JOptionPane.showMessageDialog(this, "Invalid password");
         } else if (!username.matches("[a-zA-Z]+")) { // Kiểm tra xem username có chỉ chứa chữ cái không
-            JOptionPane.showMessageDialog(this, "Tên đăng nhập không được chứa ký tự đặc biệt hoặc số");
+            JOptionPane.showMessageDialog(this, "Account names cannot contain special characters or numbers");
         } else {
             try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM TAIKHOAN WHERE TenTK=? AND MatKhauTK=?")) {
 
