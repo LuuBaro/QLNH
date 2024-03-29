@@ -350,7 +350,7 @@ public class ThuDonFame extends javax.swing.JFrame {
         txtMaMA.setText(tblTable.getValueAt(r, 0).toString());
         txtTenMA.setText(tblTable.getValueAt(r, 1).toString());
         txtGT.setText(tblTable.getValueAt(r, 2).toString());
-        
+
     }//GEN-LAST:event_tblTableMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
@@ -360,72 +360,114 @@ public class ThuDonFame extends javax.swing.JFrame {
             String mamon = txtMaMA.getText();
             String tenmon = txtTenMA.getText();
             String giatien = txtGT.getText();
-            
+
             String query = "INSERT INTO THUCDON(MaMon, TenMon, GiaTien) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
-            
+
             statement.setNString(1, mamon);
             statement.setNString(2, tenmon);
             statement.setNString(3, giatien);
-            
+
             statement.executeUpdate();
             loadTable();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-//        int row = tblTable.getSelectedRow();
-//        if (row < 0) {
-//            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để xóa!");
-//            return;
-//        }
-//        modeProducts.removeRow(row);
-//        xoaform();
+        try {
+            int selectedRow = tblTable.getSelectedRow();
+            if (selectedRow != -1) {
+                // Lấy dữ liệu từ hàng được chọn
+                String id = tblTable.getValueAt(selectedRow, 0).toString();
+
+                // Xóa dữ liệu từ cơ sở dữ liệu
+                Connection connection = DatabaseUtil.getConnection();
+                String query = "DELETE FROM THUCDON WHERE MaMon = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, id);
+                statement.executeUpdate();
+
+                // Thông báo thành công và làm mới bảng
+                JOptionPane.showMessageDialog(this, "Dữ liệu đã được xóa thành công.");
+                loadTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn một hàng để xóa.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-//        int row = tblTable.getSelectedRow();
-//        if (row < 0) {
-//            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để thay đổi!");
-//            return;
-//        }
-//        modeProducts.setValueAt(txtTenMA.getText().trim(), row, 0);
-//        modeProducts.setValueAt(txtSL.getText().trim(), row, 1);
-//        modeProducts.setValueAt(txtGT.getText().trim(), row, 2);
+        String id = txtMaMA.getText();
+        String foodName = txtTenMA.getText();
+        String price = txtGT.getText();
 
+        // Hiển thị hộp thoại nhập liệu để người dùng chỉnh sửa
+        String newId = JOptionPane.showInputDialog(this, "Nhập ID mới:", id);
+        String newFoodName = JOptionPane.showInputDialog(this, "Nhập tên món mới:", foodName);
+        String newPrice = JOptionPane.showInputDialog(this, "Nhập giá mới:", price);
+
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+
+            // Thực hiện cập nhật dữ liệu vào cơ sở dữ liệu
+            String query = "UPDATE THUCDON SET MaMon = ?, TenMon = ?, GiaTien = ? WHERE MaMon = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, newId);
+            statement.setString(2, newFoodName);
+            statement.setString(3, newPrice);
+            statement.setString(4, id);
+
+            statement.executeUpdate();
+
+            // Thông báo thành công và làm mới bảng
+            JOptionPane.showMessageDialog(this, "Dữ liệu đã được cập nhật thành công.");
+            loadTable();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
+ String searchTerm = txtTim.getText();
+    try {
+        Connection connection = DatabaseUtil.getConnection();
+        String query = "SELECT * FROM THUCDON WHERE TenMon LIKE ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, "%" + searchTerm + "%"); // Tìm kiếm món ăn có tên chứa chuỗi nhập vào
 
-//        String maSPCanTim = txtTim.getText().trim();
-//        boolean timThay = false;
-//        for (int i = 0; i < tblTable.getRowCount(); i++) {
-//            String maSPTrongBang = (String) tblTable.getValueAt(i, 0); // Giả sử cột đầu tiên là cột chứa mã sản phẩm
-//            if (maSPTrongBang.equals(maSPCanTim)) {
-//                tblTable.setRowSelectionInterval(i, i); // Chọn dòng có mã sản phẩm cần tìm
-//                String MaMA = (String) tblTable.getValueAt(i, 0);
-//                String tenMA = (String) tblTable.getValueAt(i, 1);
-//                String slMA = (String) tblTable.getValueAt(i, 2);
-//                String giatien = (String) tblTable.getValueAt(i, 3);
-//                txtMaMA.setText(MaMA);
-//                txtTenMA.setText(tenMA);
-//                txtSL.setText(slMA);
-//                txtGT.setText(giatien);
-//                timThay = true;
-//                break;
-//            }
-//        }
-//
-//        if (!timThay) {
-//            JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
-//        }
+        ResultSet resultSet = statement.executeQuery();
+        DefaultTableModel model = (DefaultTableModel) tblTable.getModel();
+        model.setRowCount(0); // Xóa tất cả các hàng trong bảng
+
+        while (resultSet.next()) {
+            Object[] row = {
+                resultSet.getString("MaMon"),
+                resultSet.getString("TenMon"),
+                resultSet.getFloat("GiaTien")
+            };
+            model.addRow(row);
+        }
+
+        // Nếu không có kết quả nào được tìm thấy, hiển thị thông báo
+        if (model.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Không tìm thấy món ăn phù hợp.");
+        }
+
+        resultSet.close();
+        statement.close();
+        connection.close();
+    } catch (SQLException e) {
+        e.printStackTrace();
+    }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
