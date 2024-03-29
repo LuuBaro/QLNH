@@ -4,6 +4,13 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author WINDOWS
@@ -16,6 +23,76 @@ public class BillFrameForm extends javax.swing.JFrame {
     public BillFrameForm() {
         initComponents();
         setLocationRelativeTo(null);
+        loadTable();
+        loadTableNameFood();
+
+    }
+
+    private void clearForm() {
+        txtMaMon.setText("");
+        txtMaBan.setText("");
+        txtSoluong.setText("");
+        txtGiaMon.setText("");
+    }
+
+    private void loadTable() {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            String query = "SELECT * FROM BAN_THUCDON";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            // Tạo một mảng chứa tên cột của bảng
+            String[] columns = {
+                "Food Name",
+                "ID Food",
+                "ID Table",
+                "Quantity",
+                "Price"
+            };
+
+            // Tạo một DefaultTableModel với các cột đã chỉ định và 0 hàng
+            DefaultTableModel model = new DefaultTableModel(columns, 0);
+
+            // Đọc dữ liệu từ ResultSet và thêm vào model
+            while (resultSet.next()) {
+                // Lấy dữ liệu từ các cột trong ResultSet
+                String maBan = resultSet.getString("maBan");
+                String maMon = resultSet.getString("maMon");
+
+                // Thêm dữ liệu vào một hàng mới của model
+                Object[] row = {maBan, maMon};
+                model.addRow(row);
+            }
+
+            // Đặt model cho bảng tblTable
+            tblTableBill.setModel(model);
+        } catch (SQLException e) {
+            // Xử lý lỗi SQL
+            e.printStackTrace();
+        }
+
+    }
+
+    private void loadTableNameFood() {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            String query = "SELECT TenMon FROM THUCDON";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()) {
+                String foodName = resultSet.getString("TenMon");
+                cboTenMon.addItem(foodName);
+            }
+
+            // Đóng kết nối và tài nguyên
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -38,7 +115,7 @@ public class BillFrameForm extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         txtSoluong = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblBangMon = new javax.swing.JTable();
+        tblTableBill = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         btnReset = new javax.swing.JButton();
@@ -63,7 +140,12 @@ public class BillFrameForm extends javax.swing.JFrame {
         jLabel5.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         jLabel5.setText("Price:");
 
-        cboTenMon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Salad hoàng đế", "Bánh xốp Macaron", "Súp hải sản", "Cá hồi nướng","Sườn non chiên","Tôm càng nướng","Bò lagu ","Gà hấp","Ghẹ rang muối","Bào ngư" }));
+        cboTenMon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {}));
+        cboTenMon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTenMonActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 51, 153));
@@ -73,7 +155,7 @@ public class BillFrameForm extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(0, 51, 153));
         jLabel10.setText("Quantity:");
 
-        tblBangMon.setModel(new javax.swing.table.DefaultTableModel(
+        tblTableBill.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null},
                 {null, null, null, null, null},
@@ -84,7 +166,7 @@ public class BillFrameForm extends javax.swing.JFrame {
                 "Food Name", "ID Food", "ID Table", "Quantity", "Price"
             }
         ));
-        jScrollPane1.setViewportView(tblBangMon);
+        jScrollPane1.setViewportView(tblTableBill);
 
         jPanel1.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
@@ -242,6 +324,33 @@ public class BillFrameForm extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
+    private void cboTenMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTenMonActionPerformed
+        // TODO add your handling code here:
+        // Lấy tên món ăn được chọn từ cboFoodName
+      // Lấy tên món ăn được chọn từ cboFoodName
+    String selectedFoodName = cboTenMon.getSelectedItem().toString();
+
+    String query = "SELECT MaMon FROM THUCDON WHERE TenMon = ?";
+    try (Connection connection = DatabaseUtil.getConnection();
+         PreparedStatement statement = connection.prepareStatement(query)) {
+
+        statement.setString(1, selectedFoodName);
+        ResultSet resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            // Hiển thị ID của món ăn trong txtIdFood
+            String id = resultSet.getString("MaMon");
+            txtMaMon.setText(id);
+        } else {
+            // Nếu không tìm thấy món ăn, xóa nội dung trong txtIdFood
+            txtMaMon.setText("");
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm ID của món ăn.");
+    }
+    }//GEN-LAST:event_cboTenMonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -298,7 +407,7 @@ public class BillFrameForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblBangMon;
+    private javax.swing.JTable tblTableBill;
     private javax.swing.JTextField txtGiaMon;
     private javax.swing.JTextField txtMaBan;
     private javax.swing.JTextField txtMaMon;
