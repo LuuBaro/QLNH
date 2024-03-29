@@ -4,8 +4,13 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Vector;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -13,6 +18,7 @@ import java.util.Date;
  */
 public class HDCT extends javax.swing.JFrame {
 
+    private String currentTableId;
     private Runnable runnable;
 
     /**
@@ -35,17 +41,16 @@ public class HDCT extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
         lblClock = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtIDBang = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtGiamGia = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtTongTien = new javax.swing.JTextField();
         jPanel7 = new javax.swing.JPanel();
         btnPay = new javax.swing.JButton();
         btnBack = new javax.swing.JButton();
@@ -53,7 +58,7 @@ public class HDCT extends javax.swing.JFrame {
         btnHome = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblBangHoaDon = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
@@ -67,15 +72,13 @@ public class HDCT extends javax.swing.JFrame {
         jButton10 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 3, 24)); // NOI18N
-        jLabel1.setText("STICKY RICE");
+        jLabel1.setForeground(new java.awt.Color(102, 102, 255));
+        jLabel1.setText("STICKY RICE RESTAURANT ");
 
-        jLabel2.setFont(new java.awt.Font("Times New Roman", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel2.setText("Time:");
-
-        lblClock.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblClock.setFont(new java.awt.Font("Segoe UI", 1, 20)); // NOI18N
         lblClock.setForeground(new java.awt.Color(255, 51, 51));
         lblClock.setText("00:00:00");
         lblClock.addAncestorListener(new javax.swing.event.AncestorListener() {
@@ -93,23 +96,20 @@ public class HDCT extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(82, 82, 82)
                 .addComponent(jLabel1)
-                .addGap(31, 31, 31)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 247, Short.MAX_VALUE)
                 .addComponent(lblClock)
-                .addContainerGap(434, Short.MAX_VALUE))
+                .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(32, 32, 32)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 10, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2)
-                    .addComponent(lblClock, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(46, Short.MAX_VALUE))
+                    .addComponent(lblClock)
+                    .addComponent(jLabel1))
+                .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
@@ -125,41 +125,52 @@ public class HDCT extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(0, 153, 153));
         jLabel3.setText("ID Table:");
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 0);
         jPanel6.add(jLabel3, gridBagConstraints);
+
+        txtIDBang.setEditable(false);
+        txtIDBang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtIDBang.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
-        jPanel6.add(jTextField1, gridBagConstraints);
+        jPanel6.add(txtIDBang, gridBagConstraints);
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 153, 153));
         jLabel5.setText("Discount:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 0);
         jPanel6.add(jLabel5, gridBagConstraints);
+
+        txtGiamGia.setForeground(new java.awt.Color(255, 51, 51));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
-        jPanel6.add(jTextField3, gridBagConstraints);
+        jPanel6.add(txtGiamGia, gridBagConstraints);
 
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 153, 153));
         jLabel6.setText("Total:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
+        gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 0);
         jPanel6.add(jLabel6, gridBagConstraints);
+
+        txtTongTien.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 20, 10, 20);
-        jPanel6.add(jTextField4, gridBagConstraints);
+        jPanel6.add(txtTongTien, gridBagConstraints);
 
         jPanel4.add(jPanel6, java.awt.BorderLayout.PAGE_START);
 
@@ -173,6 +184,7 @@ public class HDCT extends javax.swing.JFrame {
         btnPay.setPreferredSize(new java.awt.Dimension(100, 52));
         btnPay.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel7.add(btnPay, gridBagConstraints);
 
@@ -217,7 +229,7 @@ public class HDCT extends javax.swing.JFrame {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
+        gridBagConstraints.gridy = 0;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
         jPanel7.add(btnHome, gridBagConstraints);
 
@@ -225,31 +237,29 @@ public class HDCT extends javax.swing.JFrame {
 
         jPanel2.add(jPanel4, java.awt.BorderLayout.LINE_END);
 
-        jPanel5.setPreferredSize(new java.awt.Dimension(300, 402));
-        jPanel5.setLayout(new java.awt.GridLayout(1, 0));
+        jPanel5.setPreferredSize(new java.awt.Dimension(300, 250));
+        jPanel5.setLayout(new java.awt.BorderLayout());
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(300, 402));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblBangHoaDon.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID Invoice ", "ID Food", "Food Name", "Quantity", "Price"
             }
         ));
-        jTable1.setPreferredSize(new java.awt.Dimension(250, 80));
-        jScrollPane1.setViewportView(jTable1);
+        tblBangHoaDon.setPreferredSize(new java.awt.Dimension(250, 80));
+        jScrollPane1.setViewportView(tblBangHoaDon);
 
-        jPanel5.add(jScrollPane1);
+        jPanel5.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         jPanel2.add(jPanel5, java.awt.BorderLayout.CENTER);
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
+        jPanel3.setPreferredSize(new java.awt.Dimension(460, 150));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -258,9 +268,14 @@ public class HDCT extends javax.swing.JFrame {
         jButton1.setText("Table");
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton1, gridBagConstraints);
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -269,9 +284,14 @@ public class HDCT extends javax.swing.JFrame {
         jButton2.setText("Table ");
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton2, gridBagConstraints);
 
         jButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -280,9 +300,14 @@ public class HDCT extends javax.swing.JFrame {
         jButton3.setText("Table ");
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton3, gridBagConstraints);
 
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -291,9 +316,14 @@ public class HDCT extends javax.swing.JFrame {
         jButton4.setText("Table ");
         jButton4.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton4.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton4, gridBagConstraints);
 
         jButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -302,9 +332,14 @@ public class HDCT extends javax.swing.JFrame {
         jButton5.setText("Table ");
         jButton5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton5.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton5, gridBagConstraints);
 
         jButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -313,10 +348,15 @@ public class HDCT extends javax.swing.JFrame {
         jButton6.setText("Table ");
         jButton6.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton6.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton6, gridBagConstraints);
 
         jButton7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -325,10 +365,15 @@ public class HDCT extends javax.swing.JFrame {
         jButton7.setText("Table ");
         jButton7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton7.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton7, gridBagConstraints);
 
         jButton8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -337,10 +382,15 @@ public class HDCT extends javax.swing.JFrame {
         jButton8.setText("Table ");
         jButton8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton8.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton8, gridBagConstraints);
 
         jButton9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -349,10 +399,15 @@ public class HDCT extends javax.swing.JFrame {
         jButton9.setText("Table ");
         jButton9.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton9.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton9, gridBagConstraints);
 
         jButton10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -361,10 +416,15 @@ public class HDCT extends javax.swing.JFrame {
         jButton10.setText("Table");
         jButton10.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton10.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 10, 20, 10);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
         jPanel3.add(jButton10, gridBagConstraints);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
@@ -389,7 +449,7 @@ public class HDCT extends javax.swing.JFrame {
 
     private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackActionPerformed
         // TODO add your handling code here:
-         BillFrameForm BillForm = new  BillFrameForm();
+        BillFrameForm BillForm = new BillFrameForm();
         BillForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
@@ -398,13 +458,125 @@ public class HDCT extends javax.swing.JFrame {
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
         // TODO add your handling code here:
-         MainForm main = new  MainForm();
+        MainForm main = new MainForm();
         main.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();
-        
+
     }//GEN-LAST:event_btnHomeActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B001";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B002";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B003";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B004";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B005";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B006";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B007";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton7ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B008";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B009";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        // TODO add your handling code here:
+        currentTableId = "B010";
+        displayMenuForTable(currentTableId);
+        txtIDBang.setText(currentTableId);
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    public void displayMenuForTable(String tableId) {
+        // Thực hiện truy vấn SQL để lấy dữ liệu từ cơ sở dữ liệu dựa trên tableId
+        // Và hiển thị dữ liệu đó lên giao diện
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+
+            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, HOADON.MaHD, HOADON.MaBan, HDCT.SoLuongMon "
+                    + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
+                    + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
+                    + "JOIN HOADON ON BAN.MaBan = HOADON.MaBan "
+                    + "JOIN HDCT ON HOADON.MaHD = HDCT.MaHD "
+                    + "WHERE BAN.MaBan = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, tableId);
+            ResultSet rs = statement.executeQuery();
+
+            // Tạo một DefaultTableModel để chứa dữ liệu
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("ID Invoice");
+            model.addColumn("ID Food");
+            model.addColumn("Food Name");
+            model.addColumn("Quantity");
+            model.addColumn("Price");
+
+            // Đọc dữ liệu từ ResultSet và thêm vào model
+            while (rs.next()) {
+                Vector row = new Vector();
+                row.add(rs.getNString("MaHD"));
+                row.add(rs.getNString("MaMon"));
+                row.add(rs.getNString("TenMon"));
+                row.add(rs.getInt("SoLuongMon"));
+                row.add(rs.getFloat("GiaTien"));
+                model.addRow(row);
+            }
+
+            // Đặt model cho tblBangHoaDon
+            tblBangHoaDon.setModel(model);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -433,6 +605,12 @@ public class HDCT extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -458,7 +636,6 @@ public class HDCT extends javax.swing.JFrame {
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -470,10 +647,10 @@ public class HDCT extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblClock;
+    private javax.swing.JTable tblBangHoaDon;
+    private javax.swing.JTextField txtGiamGia;
+    private javax.swing.JTextField txtIDBang;
+    private javax.swing.JTextField txtTongTien;
     // End of variables declaration//GEN-END:variables
 }
