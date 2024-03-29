@@ -259,7 +259,7 @@ public class HDCT extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.PAGE_END);
 
-        jPanel3.setPreferredSize(new java.awt.Dimension(460, 150));
+        jPanel3.setPreferredSize(new java.awt.Dimension(460, 200));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -275,7 +275,7 @@ public class HDCT extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 20, 5);
         jPanel3.add(jButton1, gridBagConstraints);
 
         jButton2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -291,7 +291,7 @@ public class HDCT extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 20, 5);
         jPanel3.add(jButton2, gridBagConstraints);
 
         jButton3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -307,7 +307,7 @@ public class HDCT extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 20, 5);
         jPanel3.add(jButton3, gridBagConstraints);
 
         jButton4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -323,7 +323,7 @@ public class HDCT extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 20, 5);
         jPanel3.add(jButton4, gridBagConstraints);
 
         jButton5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -339,7 +339,7 @@ public class HDCT extends javax.swing.JFrame {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(25, 5, 20, 5);
         jPanel3.add(jButton5, gridBagConstraints);
 
         jButton6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -356,7 +356,7 @@ public class HDCT extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 25, 5);
         jPanel3.add(jButton6, gridBagConstraints);
 
         jButton7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -373,7 +373,7 @@ public class HDCT extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 25, 5);
         jPanel3.add(jButton7, gridBagConstraints);
 
         jButton8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -390,7 +390,7 @@ public class HDCT extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 25, 5);
         jPanel3.add(jButton8, gridBagConstraints);
 
         jButton9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -407,7 +407,7 @@ public class HDCT extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 25, 5);
         jPanel3.add(jButton9, gridBagConstraints);
 
         jButton10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -424,7 +424,7 @@ public class HDCT extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(20, 5, 20, 5);
+        gridBagConstraints.insets = new java.awt.Insets(20, 5, 25, 5);
         jPanel3.add(jButton10, gridBagConstraints);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
