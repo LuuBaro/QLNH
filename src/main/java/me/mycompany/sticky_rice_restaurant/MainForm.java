@@ -135,6 +135,11 @@ public class MainForm extends javax.swing.JFrame {
         btnDangXuat.setForeground(new java.awt.Color(255, 255, 255));
         btnDangXuat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Emergency Exit.png"))); // NOI18N
         btnDangXuat.setPreferredSize(new java.awt.Dimension(100, 60));
+        btnDangXuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangXuatActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnDangXuat);
 
         jPanel4.add(jPanel1);
@@ -204,6 +209,15 @@ public class MainForm extends javax.swing.JFrame {
         // Đóng JFrame "LoginUser" nếu bạn muốn
         dispose();
     }//GEN-LAST:event_btnDoanhThuActionPerformed
+
+    private void btnDangXuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangXuatActionPerformed
+        // TODO add your handling code here:  BillFrameForm BillForm = new  BillFrameForm();
+          LoginFame hdctForm = new LoginFame();
+        hdctForm.setVisible(true);
+
+        // Đóng JFrame "LoginUser" nếu bạn muốn
+        dispose();
+    }//GEN-LAST:event_btnDangXuatActionPerformed
 
     /**
      * @param args the command line arguments

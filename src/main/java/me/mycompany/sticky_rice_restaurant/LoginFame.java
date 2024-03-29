@@ -4,6 +4,12 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ACER
@@ -16,6 +22,10 @@ public class LoginFame extends javax.swing.JFrame {
     public LoginFame() {
         initComponents();
         setLocationRelativeTo(null);
+    }
+
+    public void loadTable() {
+
     }
 
     /**
@@ -31,10 +41,10 @@ public class LoginFame extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtUser = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txtPass = new javax.swing.JPasswordField();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -53,8 +63,8 @@ public class LoginFame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel2.add(jTextField1, gridBagConstraints);
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel2.add(txtUser, gridBagConstraints);
 
         jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Password.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -62,24 +72,27 @@ public class LoginFame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
         jPanel2.add(jLabel3, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 5);
-        jPanel2.add(jTextField2, gridBagConstraints);
 
         jButton1.setBackground(new java.awt.Color(204, 153, 255));
         jButton1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton1.setForeground(new java.awt.Color(102, 0, 255));
         jButton1.setText("Login");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 30, 0, 5);
+        gridBagConstraints.insets = new java.awt.Insets(0, 35, 0, 10);
         jPanel2.add(jButton1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 1;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
+        jPanel2.add(txtPass, gridBagConstraints);
 
         jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 260, 200, 190));
 
@@ -99,6 +112,50 @@ public class LoginFame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        String username = txtUser.getText().trim();
+        String password = new String(txtPass.getPassword());
+
+// Kiểm tra xem có bất kỳ ô nào trống không
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập username và password");
+            
+        }else if(username.isEmpty()){
+             JOptionPane.showMessageDialog(this, "Vui lòng nhập username");
+            
+        }else if(password.isEmpty()){
+              JOptionPane.showMessageDialog(this, "Vui lòng nhập password");
+        } else if (!username.equalsIgnoreCase("admin")) { // Kiểm tra xem user có phải là "admin" không
+            JOptionPane.showMessageDialog(this, "Tên đăng nhập không hợp lệ");
+        } else if (!password.equals("123")) { // Kiểm tra xem password có là "123" không
+            JOptionPane.showMessageDialog(this, "Mật khẩu không hợp lệ");
+        } else if (!username.matches("[a-zA-Z]+")) { // Kiểm tra xem username có chỉ chứa chữ cái không
+            JOptionPane.showMessageDialog(this, "Tên đăng nhập không được chứa ký tự đặc biệt hoặc số");
+        } else {
+            try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM TAIKHOAN WHERE TenTK=? AND MatKhauTK=?")) {
+
+                statement.setString(1, username);
+                statement.setString(2, password);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Thực hiện các hành động sau khi đăng nhập thành công
+                        MainForm login = new MainForm();
+                        login.setVisible(true);
+
+                        // Đóng JFrame "LoginUser" nếu bạn muốn
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Sai username hoặc password");
+                    }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -142,7 +199,7 @@ public class LoginFame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField txtPass;
+    private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 }

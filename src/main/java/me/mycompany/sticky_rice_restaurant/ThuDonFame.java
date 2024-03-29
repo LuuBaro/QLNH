@@ -4,6 +4,10 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
@@ -17,38 +21,57 @@ import javax.swing.table.DefaultTableModel;
  */
 public class ThuDonFame extends javax.swing.JFrame {
 
-    DefaultTableModel modeProducts;
-    private List<ThuDonFame> list = new ArrayList<>();
-
     /**
      * Creates new form ThuDonFame
      */
     public ThuDonFame() {
         initComponents();
         setLocationRelativeTo(null);
-
-        String[] headers = {"Mã món ă", "Tên món ăn", "Số lượng", "Giá tiền"};
-        String[][] data = {
-            {"MA001", "Phở bò", "10", "50000"},
-            {"MA002", "Bánh mì gà", "15", "30000"},
-            {"MA003", "Cơm gà", "12", "45000"},
-            {"MA004", "Bún chả", "8", "60000"},
-            {"MA005", "Bánh xèo", "20", "35000"},
-            {"MA006", "Bún riêu", "18", "40000"},
-            {"MA007", "Bún bò Huế", "25", "55000"},
-            {"MA008", "Cơm tấm", "30", "40000"},
-            {"MA009", "Gỏi cuốn", "22", "25000"},
-            {"MA010", "Bò bía", "17", "28000"}
-        };
-        modeProducts = new DefaultTableModel(data, headers);
-        tblTable.setModel(modeProducts);
+        loadTable();
     }
 
     public void xoaform() {
         txtMaMA.setText("");
         txtTenMA.setText("");
-        txtSL.setText("");
         txtGT.setText("");
+    }
+
+    public void loadTable() {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            String query = "SELECT * FROM THUCDON";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
+
+            // Tạo một mảng chứa tên cột của bảng
+            String[] columns = {
+                "ID Food",
+                "Food Name",
+                "Price"
+            };
+
+            // Tạo một DefaultTableModel với các cột đã chỉ định và 0 hàng
+            DefaultTableModel model = new DefaultTableModel(columns, 0);
+
+            // Đọc dữ liệu từ ResultSet và thêm vào model
+            while (resultSet.next()) {
+                // Lấy dữ liệu từ các cột trong ResultSet
+                String maMon = resultSet.getString("MaMon");
+                String tenMon = resultSet.getString("TenMon");
+                float giaTien = resultSet.getFloat("GiaTien");
+
+                // Thêm dữ liệu vào một hàng mới của model
+                Object[] row = {maMon, tenMon, giaTien};
+                model.addRow(row);
+            }
+
+            // Đặt model cho bảng tblTable
+            tblTable.setModel(model);
+        } catch (SQLException e) {
+            // Xử lý lỗi SQL
+            e.printStackTrace();
+        }
+
     }
 
     /**
@@ -73,8 +96,6 @@ public class ThuDonFame extends javax.swing.JFrame {
         txtMaMA = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         txtTenMA = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtSL = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtGT = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
@@ -94,13 +115,13 @@ public class ThuDonFame extends javax.swing.JFrame {
 
         tblTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"", "", "", ""},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {"", "", ""},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Mã món ăn", "Tên món ăn", "Số Lượng", "Giá tiền"
+                "ID Food", "Food Name", "Price"
             }
         ));
         tblTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -154,8 +175,6 @@ public class ThuDonFame extends javax.swing.JFrame {
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 20);
         jPanel2.add(jLabel2, gridBagConstraints);
-
-        txtMaMA.setEditable(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 1.0;
@@ -176,21 +195,6 @@ public class ThuDonFame extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(txtTenMA, gridBagConstraints);
-
-        jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel4.setText("Quantity:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weighty = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 20);
-        jPanel2.add(jLabel4, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
-        jPanel2.add(txtSL, gridBagConstraints);
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 153, 153));
@@ -345,69 +349,83 @@ public class ThuDonFame extends javax.swing.JFrame {
         }
         txtMaMA.setText(tblTable.getValueAt(r, 0).toString());
         txtTenMA.setText(tblTable.getValueAt(r, 1).toString());
-        txtSL.setText(tblTable.getValueAt(r, 2).toString());
-        txtGT.setText(tblTable.getValueAt(r, 3).toString());
+        txtGT.setText(tblTable.getValueAt(r, 2).toString());
+        
     }//GEN-LAST:event_tblTableMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
-        Vector dataRow = new Vector();
-        dataRow.add(txtMaMA.getText().trim());
-        dataRow.add(txtTenMA.getText().trim());
-        dataRow.add(txtSL.getText().trim());
-        dataRow.add(txtGT.getText().trim());
-        modeProducts.addRow(dataRow);
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            String mamon = txtMaMA.getText();
+            String tenmon = txtTenMA.getText();
+            String giatien = txtGT.getText();
+            
+            String query = "INSERT INTO THUCDON(MaMon, TenMon, GiaTien) VALUES (?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            
+            statement.setNString(1, mamon);
+            statement.setNString(2, tenmon);
+            statement.setNString(3, giatien);
+            
+            statement.executeUpdate();
+            loadTable();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        int row = tblTable.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để xóa!");
-            return;
-        }
-        modeProducts.removeRow(row);
-        xoaform();
+//        int row = tblTable.getSelectedRow();
+//        if (row < 0) {
+//            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để xóa!");
+//            return;
+//        }
+//        modeProducts.removeRow(row);
+//        xoaform();
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        int row = tblTable.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để thay đổi!");
-            return;
-        }
-        modeProducts.setValueAt(txtTenMA.getText().trim(), row, 0);
-        modeProducts.setValueAt(txtSL.getText().trim(), row, 1);
-        modeProducts.setValueAt(txtGT.getText().trim(), row, 2);
+//        int row = tblTable.getSelectedRow();
+//        if (row < 0) {
+//            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để thay đổi!");
+//            return;
+//        }
+//        modeProducts.setValueAt(txtTenMA.getText().trim(), row, 0);
+//        modeProducts.setValueAt(txtSL.getText().trim(), row, 1);
+//        modeProducts.setValueAt(txtGT.getText().trim(), row, 2);
 
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
 
-        String maSPCanTim = txtTim.getText().trim();
-        boolean timThay = false;
-        for (int i = 0; i < tblTable.getRowCount(); i++) {
-            String maSPTrongBang = (String) tblTable.getValueAt(i, 0); // Giả sử cột đầu tiên là cột chứa mã sản phẩm
-            if (maSPTrongBang.equals(maSPCanTim)) {
-                tblTable.setRowSelectionInterval(i, i); // Chọn dòng có mã sản phẩm cần tìm
-                String MaMA = (String) tblTable.getValueAt(i, 0);
-                String tenMA = (String) tblTable.getValueAt(i, 1);
-                String slMA = (String) tblTable.getValueAt(i, 2);
-                String giatien = (String) tblTable.getValueAt(i, 3);
-                txtMaMA.setText(MaMA);
-                txtTenMA.setText(tenMA);
-                txtSL.setText(slMA);
-                txtGT.setText(giatien);
-                timThay = true;
-                break;
-            }
-        }
-
-        if (!timThay) {
-            JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
-        }
+//        String maSPCanTim = txtTim.getText().trim();
+//        boolean timThay = false;
+//        for (int i = 0; i < tblTable.getRowCount(); i++) {
+//            String maSPTrongBang = (String) tblTable.getValueAt(i, 0); // Giả sử cột đầu tiên là cột chứa mã sản phẩm
+//            if (maSPTrongBang.equals(maSPCanTim)) {
+//                tblTable.setRowSelectionInterval(i, i); // Chọn dòng có mã sản phẩm cần tìm
+//                String MaMA = (String) tblTable.getValueAt(i, 0);
+//                String tenMA = (String) tblTable.getValueAt(i, 1);
+//                String slMA = (String) tblTable.getValueAt(i, 2);
+//                String giatien = (String) tblTable.getValueAt(i, 3);
+//                txtMaMA.setText(MaMA);
+//                txtTenMA.setText(tenMA);
+//                txtSL.setText(slMA);
+//                txtGT.setText(giatien);
+//                timThay = true;
+//                break;
+//            }
+//        }
+//
+//        if (!timThay) {
+//            JOptionPane.showMessageDialog(null, "Không tìm thấy món ăn có mã " + maSPCanTim);
+//        }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -465,7 +483,6 @@ public class ThuDonFame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -477,7 +494,6 @@ public class ThuDonFame extends javax.swing.JFrame {
     private javax.swing.JTable tblTable;
     private javax.swing.JTextField txtGT;
     private javax.swing.JTextField txtMaMA;
-    private javax.swing.JTextField txtSL;
     private javax.swing.JTextField txtTenMA;
     private javax.swing.JTextField txtTim;
     // End of variables declaration//GEN-END:variables

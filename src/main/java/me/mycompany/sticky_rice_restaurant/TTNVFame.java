@@ -25,17 +25,6 @@ public class TTNVFame extends javax.swing.JFrame {
     public TTNVFame() {
         initComponents();
         setLocationRelativeTo(null);
-
-        String[] headers = {"Mã NV", "Họ và tên", "Ngày sinh", "Sđt", "Địa chỉ", "Giới tính", "Tài khoản", "Mật khẩu", "Chức vụ", "Hình"};
-        String[][] data = {
-            {"NV001", "Nguyễn Văn A", "01/01/1990", "123456789", "Hà Nội", "Nam", "nvA", "passwordA", "Nhân viên", "path/to/image1.jpg"},
-            {"NV002", "Trần Thị B", "02/02/1991", "987654321", "Hải Phòng", "Nữ", "nvB", "passwordB", "Nhân Viên", "path/to/image2.jpg"},
-            {"NV003", "Lê Văn C", "03/03/1992", "456123789", "Đà Nẵng", "Nam", "nvC", "passwordC", "Nhân viên", "path/to/image3.jpg"},
-            {"NV004", "Phạm Thị D", "04/04/1993", "789456123", "TP.HCM", "Nữ", "nvD", "passwordD", "Nhân viên", "path/to/image4.jpg"}
-        };
-
-        modeNhanVien = new DefaultTableModel(data, headers);
-        tblNhanVien.setModel(modeNhanVien);
     }
 
     public void xoaform() {
@@ -61,6 +50,9 @@ public class TTNVFame extends javax.swing.JFrame {
         }
         return false; // Mã nhân viên chưa tồn tại
     }
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -331,7 +323,7 @@ public class TTNVFame extends javax.swing.JFrame {
 
         jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel10.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel10.setText("Position:");
+        jLabel10.setText("Roles:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 2;
