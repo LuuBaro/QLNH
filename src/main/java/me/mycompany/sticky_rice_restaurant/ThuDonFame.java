@@ -393,10 +393,10 @@ public class ThuDonFame extends javax.swing.JFrame {
                 statement.executeUpdate();
 
                 // Thông báo thành công và làm mới bảng
-                JOptionPane.showMessageDialog(this, "Dữ liệu đã được xóa thành công.");
+                JOptionPane.showMessageDialog(this, "Deleted successfully.");
                 loadTable();
             } else {
-                JOptionPane.showMessageDialog(this, "Vui lòng chọn một hàng để xóa.");
+                JOptionPane.showMessageDialog(this, "Please select a row to delete.");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -410,9 +410,9 @@ public class ThuDonFame extends javax.swing.JFrame {
         String price = txtGT.getText();
 
         // Hiển thị hộp thoại nhập liệu để người dùng chỉnh sửa
-        String newId = JOptionPane.showInputDialog(this, "Nhập ID mới:", id);
-        String newFoodName = JOptionPane.showInputDialog(this, "Nhập tên món mới:", foodName);
-        String newPrice = JOptionPane.showInputDialog(this, "Nhập giá mới:", price);
+        String newId = JOptionPane.showInputDialog(this, "Enter new ID:", id);
+        String newFoodName = JOptionPane.showInputDialog(this, "Enter new item name:", foodName);
+        String newPrice = JOptionPane.showInputDialog(this, "Enter new price:", price);
 
         try {
             Connection connection = DatabaseUtil.getConnection();
@@ -428,7 +428,7 @@ public class ThuDonFame extends javax.swing.JFrame {
             statement.executeUpdate();
 
             // Thông báo thành công và làm mới bảng
-            JOptionPane.showMessageDialog(this, "Dữ liệu đã được cập nhật thành công.");
+            JOptionPane.showMessageDialog(this, "The data has been updated successfully.");
             loadTable();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -459,7 +459,7 @@ public class ThuDonFame extends javax.swing.JFrame {
 
         // Nếu không có kết quả nào được tìm thấy, hiển thị thông báo
         if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy món ăn phù hợp.");
+            JOptionPane.showMessageDialog(this, "No matching dishes found.");
         }
 
         resultSet.close();
