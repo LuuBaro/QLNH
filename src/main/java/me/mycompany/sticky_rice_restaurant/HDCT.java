@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Vector;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -148,6 +149,11 @@ public class HDCT extends javax.swing.JFrame {
         jPanel6.add(jLabel5, gridBagConstraints);
 
         txtGiamGia.setForeground(new java.awt.Color(255, 51, 51));
+        txtGiamGia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtGiamGiaActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -183,6 +189,11 @@ public class HDCT extends javax.swing.JFrame {
         btnPay.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnPay.setPreferredSize(new java.awt.Dimension(100, 52));
         btnPay.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPayActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 10, 10);
@@ -469,72 +480,112 @@ public class HDCT extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B001";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B002";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B003";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B004";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B005";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B006";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton6ActionPerformed
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B007";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B008";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton8ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B009";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
         currentTableId = "B010";
+        txtGiamGia.setText("");
         displayMenuForTable(currentTableId);
         txtIDBang.setText(currentTableId);
+        totalPrice(currentTableId);
     }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
+        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Payment successful!");
+
+        // Xóa dữ liệu trong bảng
+        DefaultTableModel model = (DefaultTableModel) tblBangHoaDon.getModel();
+        model.setRowCount(0);
+        // Xóa dữ liệu trong txtTongTien
+        txtTongTien.setText("");
+        // Xóa dữ liệu trong txtGiamGia
+        txtGiamGia.setText("");
+    }//GEN-LAST:event_btnPayActionPerformed
+
+    private void txtGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGiamGiaActionPerformed
+        // TODO add your handling code here:
+        totalPrice(currentTableId);
+    }//GEN-LAST:event_txtGiamGiaActionPerformed
 
     public void displayMenuForTable(String tableId) {
         // Thực hiện truy vấn SQL để lấy dữ liệu từ cơ sở dữ liệu dựa trên tableId
@@ -542,11 +593,10 @@ public class HDCT extends javax.swing.JFrame {
         try {
             Connection connection = DatabaseUtil.getConnection();
 
-            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, HOADON.MaHD, HOADON.MaBan, HDCT.SoLuongMon "
+            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, HOADON.MaHD, BAN_THUCDON.MaBan, BAN_THUCDON.SoLuong "
                     + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
                     + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
                     + "JOIN HOADON ON BAN.MaBan = HOADON.MaBan "
-                    + "JOIN HDCT ON HOADON.MaHD = HDCT.MaHD "
                     + "WHERE BAN.MaBan = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, tableId);
@@ -566,7 +616,7 @@ public class HDCT extends javax.swing.JFrame {
                 row.add(rs.getNString("MaHD"));
                 row.add(rs.getNString("MaMon"));
                 row.add(rs.getNString("TenMon"));
-                row.add(rs.getInt("SoLuongMon"));
+                row.add(rs.getInt("SoLuong"));
                 row.add(rs.getFloat("GiaTien"));
                 model.addRow(row);
             }
@@ -576,6 +626,47 @@ public class HDCT extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public void totalPrice(String tableId) {
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+
+            String query = "SELECT SUM(THUCDON.GiaTien * BAN_THUCDON.SoLuong) AS Total "
+                    + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
+                    + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
+                    + "JOIN HOADON ON BAN.MaBan = HOADON.MaBan "
+                    + "WHERE BAN.MaBan = ?";
+
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, tableId);
+            ResultSet rs = statement.executeQuery();
+
+            if (rs.next()) {
+                float total = rs.getFloat("Total");
+                String discountText = txtGiamGia.getText();
+                if (!discountText.isEmpty()) {
+                    float discountPercent = Float.parseFloat(discountText);
+                    total = calculateDiscountedPrice(total, discountPercent);
+                }
+                txtTongTien.setText(String.valueOf(total));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public float calculateDiscountedPrice(float total, float discountPercent) {
+        // Kiểm tra xem phần trăm giảm có hợp lệ không
+
+        if (discountPercent < 0 || discountPercent > 100) {
+            throw new IllegalArgumentException("The discount percentage must be between 0 and 100.");
+        }
+
+        // Tính giá tiền sau khi đã giảm
+        float discountedPrice = total * (1 - discountPercent / 100);
+
+        return discountedPrice;
     }
 
     /**
