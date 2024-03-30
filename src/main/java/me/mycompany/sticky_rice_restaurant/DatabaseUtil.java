@@ -22,7 +22,7 @@ public class DatabaseUtil {
         
         try {
             Class.forName(SQLServerDriver.class.getName());
-            String url = "jdbc:sqlserver://localhost;database=QLNH;integratedSecurity=false;user=sa;password=minhnguyen15959;encrypt=true;trustServerCertificate=true;";
+            String url = "jdbc:sqlserver://localhost;database=QLNH;integratedSecurity=false;user=sa;password=290420;encrypt=true;trustServerCertificate=true;";
             return DriverManager.getConnection(url);
         } catch (ClassNotFoundException | SQLException ex) {
             throw new RuntimeException(ex);
