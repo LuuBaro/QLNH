@@ -4,10 +4,13 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -23,61 +26,21 @@ public class BillFrameForm extends javax.swing.JFrame {
     public BillFrameForm() {
         initComponents();
         setLocationRelativeTo(null);
-        loadTable();
-        loadTableNameFood();
+        fillComboBox();
 
     }
 
     private void clearForm() {
         txtMaMon.setText("");
-        txtMaBan.setText("");
+//        txtMaBan.setText("");
         txtSoluong.setText("");
         txtGiaMon.setText("");
     }
 
-    private void loadTable() {
+    private void fillComboBox() {
         try {
             Connection connection = DatabaseUtil.getConnection();
-            String query = "SELECT * FROM BAN_THUCDON";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet resultSet = statement.executeQuery();
-
-            // Tạo một mảng chứa tên cột của bảng
-            String[] columns = {
-                "Food Name",
-                "ID Food",
-                "ID Table",
-                "Quantity",
-                "Price"
-            };
-
-            // Tạo một DefaultTableModel với các cột đã chỉ định và 0 hàng
-            DefaultTableModel model = new DefaultTableModel(columns, 0);
-
-            // Đọc dữ liệu từ ResultSet và thêm vào model
-            while (resultSet.next()) {
-                // Lấy dữ liệu từ các cột trong ResultSet
-                String maBan = resultSet.getString("maBan");
-                String maMon = resultSet.getString("maMon");
-
-                // Thêm dữ liệu vào một hàng mới của model
-                Object[] row = {maBan, maMon};
-                model.addRow(row);
-            }
-
-            // Đặt model cho bảng tblTable
-            tblTableBill.setModel(model);
-        } catch (SQLException e) {
-            // Xử lý lỗi SQL
-            e.printStackTrace();
-        }
-
-    }
-
-    private void loadTableNameFood() {
-        try {
-            Connection connection = DatabaseUtil.getConnection();
-            String query = "SELECT TenMon FROM THUCDON";
+            String query = "SELECT TenMon, MaMon, GiaTien FROM THUCDON";
             PreparedStatement statement = connection.prepareStatement(query);
             ResultSet resultSet = statement.executeQuery();
 
@@ -86,13 +49,14 @@ public class BillFrameForm extends javax.swing.JFrame {
                 cboTenMon.addItem(foodName);
             }
 
-            // Đóng kết nối và tài nguyên
             resultSet.close();
             statement.close();
             connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error adding dishes to table or database.");
         }
+
     }
 
     /**
@@ -111,7 +75,6 @@ public class BillFrameForm extends javax.swing.JFrame {
         txtMaMon = new javax.swing.JTextField();
         txtGiaMon = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
-        txtMaBan = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         txtSoluong = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -122,6 +85,7 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnAddfood = new javax.swing.JButton();
         btnDeletefood = new javax.swing.JButton();
         btnHome = new javax.swing.JButton();
+        cboIdTable = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -147,6 +111,10 @@ public class BillFrameForm extends javax.swing.JFrame {
             }
         });
 
+        txtMaMon.setEditable(false);
+
+        txtGiaMon.setEditable(false);
+
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 51, 153));
         jLabel9.setText("ID Table:");
@@ -157,13 +125,10 @@ public class BillFrameForm extends javax.swing.JFrame {
 
         tblTableBill.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null},
-                {null, null, null, null, null}
+
             },
             new String [] {
-                "Food Name", "ID Food", "ID Table", "Quantity", "Price"
+                "ID Table", "Food Name", "ID Food", "Price", "Quantity", "Total"
             }
         ));
         jScrollPane1.setViewportView(tblTableBill);
@@ -176,6 +141,11 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnReset.setText("Reset");
         btnReset.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReset.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetActionPerformed(evt);
+            }
+        });
 
         btnAddfood.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnAddfood.setForeground(new java.awt.Color(0, 51, 153));
@@ -183,6 +153,11 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnAddfood.setText("Add food");
         btnAddfood.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnAddfood.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnAddfood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddfoodActionPerformed(evt);
+            }
+        });
 
         btnDeletefood.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnDeletefood.setForeground(new java.awt.Color(0, 51, 153));
@@ -190,6 +165,11 @@ public class BillFrameForm extends javax.swing.JFrame {
         btnDeletefood.setText("Delete food");
         btnDeletefood.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDeletefood.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnDeletefood.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeletefoodActionPerformed(evt);
+            }
+        });
 
         btnHome.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnHome.setForeground(new java.awt.Color(0, 51, 153));
@@ -234,6 +214,13 @@ public class BillFrameForm extends javax.swing.JFrame {
                 .addContainerGap(44, Short.MAX_VALUE))
         );
 
+        cboIdTable.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {"B001","B002","B003","B004","B005","B006","B007","B008","B009","B010" }));
+        cboIdTable.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboIdTableActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -241,49 +228,62 @@ public class BillFrameForm extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel5))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addGap(0, 94, Short.MAX_VALUE)
+                                        .addComponent(txtSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel10)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(txtMaMon, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, Short.MAX_VALUE))
-                                            .addComponent(cboTenMon, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(txtMaBan)))
+                                            .addComponent(jLabel2)
+                                            .addComponent(jLabel5))
+                                        .addGap(20, 20, 20))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel1))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(20, 20, 20)
-                                        .addComponent(txtGiaMon))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(txtSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(txtGiaMon))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(txtMaMon, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(cboIdTable, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(cboTenMon, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
                         .addGap(18, 18, 18)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel9)
+                            .addComponent(cboIdTable, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(cboTenMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -291,19 +291,15 @@ public class BillFrameForm extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
                             .addComponent(txtMaMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(13, 13, 13)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel9)
-                            .addComponent(txtMaBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel10))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtGiaMon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel5)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jLabel5))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtSoluong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10)))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -325,31 +321,167 @@ public class BillFrameForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void cboTenMonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTenMonActionPerformed
-        // TODO add your handling code here:
-        // Lấy tên món ăn được chọn từ cboFoodName
-      // Lấy tên món ăn được chọn từ cboFoodName
-    String selectedFoodName = cboTenMon.getSelectedItem().toString();
+        // Lấy món ăn được chọn từ comboBox
+        cboTenMon.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    // Lấy tên món ăn được chọn từ comboBox
+                    String selectedFoodName = (String) cboTenMon.getSelectedItem();
 
-    String query = "SELECT MaMon FROM THUCDON WHERE TenMon = ?";
-    try (Connection connection = DatabaseUtil.getConnection();
-         PreparedStatement statement = connection.prepareStatement(query)) {
+                    // Kết nối cơ sở dữ liệu và truy vấn để lấy thông tin id và giá tiền của món ăn được chọn
+                    Connection connection = DatabaseUtil.getConnection();
+                    String query = "SELECT MaMon, GiaTien FROM THUCDON WHERE TenMon = ?";
+                    PreparedStatement statement = connection.prepareStatement(query);
+                    statement.setString(1, selectedFoodName);
+                    ResultSet resultSet = statement.executeQuery();
 
-        statement.setString(1, selectedFoodName);
-        ResultSet resultSet = statement.executeQuery();
+                    // Hiển thị thông tin vào các textField tương ứng
+                    if (resultSet.next()) {
+                        String selectedFoodId = resultSet.getString("MaMon");
+                        double selectedFoodPrice = resultSet.getDouble("GiaTien");
 
-        if (resultSet.next()) {
-            // Hiển thị ID của món ăn trong txtIdFood
-            String id = resultSet.getString("MaMon");
-            txtMaMon.setText(id);
-        } else {
-            // Nếu không tìm thấy món ăn, xóa nội dung trong txtIdFood
-            txtMaMon.setText("");
-        }
-    } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(this, "Lỗi khi tìm kiếm ID của món ăn.");
-    }
+                        txtMaMon.setText(selectedFoodId);
+                        txtGiaMon.setText(String.valueOf(selectedFoodPrice));
+                    } else {
+                        // Nếu không tìm thấy món ăn, xóa nội dung trong textField
+                        txtMaMon.setText("");
+                        txtGiaMon.setText("");
+                    }
+
+                    resultSet.close();
+                    statement.close();
+                    connection.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Error adding dishes to table or database.");
+                }
+            }
+        });
+
     }//GEN-LAST:event_cboTenMonActionPerformed
+
+    private void cboIdTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboIdTableActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_cboIdTableActionPerformed
+
+    private void btnAddfoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddfoodActionPerformed
+        // TODO add your handling code here:
+        try {
+            // Lấy thông tin từ các trường đã chọn
+            String SelectedIDTable = cboIdTable.getSelectedItem().toString();
+            String selectedFoodId = txtMaMon.getText(); // Mã món ăn được hiển thị ở textField txtIdFood
+            String selectedFoodName = cboTenMon.getSelectedItem().toString(); // Tên món ăn được chọn từ comboBox cboFoodName
+            double selectedFoodPrice = Double.parseDouble(txtGiaMon.getText()); // Giá tiền của món ăn được hiển thị ở textField txtPrice
+            int quantity = Integer.parseInt(txtSoluong.getText()); // Số lượng nhập vào từ textField txtQuantity
+
+            // Tính tổng tiền
+            double totalPrice = quantity * selectedFoodPrice;
+
+            // Hiển thị thông tin món ăn vào bảng
+            DefaultTableModel model = (DefaultTableModel) tblTableBill.getModel();
+            model.addRow(new Object[]{SelectedIDTable, selectedFoodName, selectedFoodId, selectedFoodPrice, quantity, totalPrice});
+
+            // Lấy MaMon từ bảng THUCDON dựa trên Tên món ăn
+            // Lưu thông tin vào cơ sở dữ liệu
+            Connection connection = DatabaseUtil.getConnection();
+
+            // Kiểm tra xem cặp giá trị (MaBan, MaMon) đã tồn tại trong bảng BAN_THUCDON chưa
+            String checkQuery = "SELECT COUNT(*) FROM BAN_THUCDON WHERE MaBan = ? AND MaMon = ?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setString(1, SelectedIDTable);
+            checkStatement.setString(2, selectedFoodId);
+            ResultSet resultSet = checkStatement.executeQuery();
+            resultSet.next();
+            int count = resultSet.getInt(1);
+
+            if (count > 0) {
+                String updateQuery = "UPDATE BAN_THUCDON SET SoLuong = SoLuong + ? WHERE MaBan = ? AND MaMon = ?";
+                PreparedStatement updateStatement = connection.prepareStatement(updateQuery);
+                updateStatement.setInt(1, quantity);
+                updateStatement.setString(2, SelectedIDTable);
+                updateStatement.setString(3, selectedFoodId);
+                updateStatement.executeUpdate();
+                updateStatement.close();
+                JOptionPane.showMessageDialog(null, "Dish has been added");
+            } else {
+                // Cặp giá trị (MaBan, MaMon) chưa tồn tại, thêm mới vào bảng BAN_THUCDON
+                String insertQuery = "INSERT INTO BAN_THUCDON (MaBan, MaMon, SoLuong) VALUES (?, ?, ?)";
+                PreparedStatement insertStatement = connection.prepareStatement(insertQuery);
+                insertStatement.setString(1, SelectedIDTable);
+                insertStatement.setString(2, selectedFoodId);
+                insertStatement.setInt(3, quantity);
+                insertStatement.executeUpdate();
+                insertStatement.close();
+
+                // Hiển thị thông báo khi thêm dữ liệu thành công
+                JOptionPane.showMessageDialog(null, "Item added successfully!");
+            }
+
+            // Đóng kết nối và các tài nguyên
+            resultSet.close();
+            checkStatement.close();
+            connection.close();
+        } catch (NumberFormatException | SQLException ex) {
+            System.out.println(ex);
+            JOptionPane.showMessageDialog(null, "Error adding dishes to table or database.");
+        }
+    }//GEN-LAST:event_btnAddfoodActionPerformed
+
+    private void btnDeletefoodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeletefoodActionPerformed
+        // TODO add your handling code here:
+        // Lấy chỉ mục của hàng được chọn trong bảng
+        int selectedRow = tblTableBill.getSelectedRow();
+
+        if (selectedRow == -1) {
+            // Nếu không có hàng nào được chọn, hiển thị thông báo và thoát
+            JOptionPane.showMessageDialog(null, "Please select a dish to delete!");
+            return;
+        }
+
+        // Lấy MaBan và MaMon từ hàng được chọn
+        String selectedTableId = tblTableBill.getValueAt(selectedRow, 0).toString();
+        String selectedFoodId = tblTableBill.getValueAt(selectedRow, 2).toString();
+
+        try {
+            // Xóa món ăn khỏi bảng và cơ sở dữ liệu
+            Connection connection = DatabaseUtil.getConnection();
+            String deleteQuery = "DELETE FROM BAN_THUCDON WHERE MaBan = ? AND MaMon = ?";
+            PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery);
+            deleteStatement.setString(1, selectedTableId);
+            deleteStatement.setString(2, selectedFoodId);
+            deleteStatement.executeUpdate();
+            deleteStatement.close();
+            connection.close();
+
+            // Xóa hàng đã chọn khỏi bảng
+            DefaultTableModel model = (DefaultTableModel) tblTableBill.getModel();
+            model.removeRow(selectedRow);
+
+            // Hiển thị thông báo khi xóa thành công
+            JOptionPane.showMessageDialog(null, "Deleted successfully!");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Error removing dish from table!");
+        }
+    }//GEN-LAST:event_btnDeletefoodActionPerformed
+
+    private void btnResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetActionPerformed
+        // TODO add your handling code here:
+         DefaultTableModel model = (DefaultTableModel) tblTableBill.getModel();
+    model.setRowCount(0);
+    
+    // Đặt lại giá trị của các textfield và combobox về giá trị mặc định
+    cboIdTable.setSelectedItem(0);
+    cboTenMon.setSelectedItem(0);
+    txtMaMon.setText("");
+    txtGiaMon.setText("");
+    txtSoluong.setText("");
+     // Đặt lại combobox về giá trị đầu tiên
+    
+    // Hiển thị thông báo reset thành công
+    JOptionPane.showMessageDialog(null, "Data reset successfully.");
+    }//GEN-LAST:event_btnResetActionPerformed
 
     /**
      * @param args the command line arguments
@@ -398,6 +530,7 @@ public class BillFrameForm extends javax.swing.JFrame {
     private javax.swing.JButton btnDeletefood;
     private javax.swing.JButton btnHome;
     private javax.swing.JButton btnReset;
+    private javax.swing.JComboBox<String> cboIdTable;
     private javax.swing.JComboBox<String> cboTenMon;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -409,7 +542,6 @@ public class BillFrameForm extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblTableBill;
     private javax.swing.JTextField txtGiaMon;
-    private javax.swing.JTextField txtMaBan;
     private javax.swing.JTextField txtMaMon;
     private javax.swing.JTextField txtSoluong;
     // End of variables declaration//GEN-END:variables

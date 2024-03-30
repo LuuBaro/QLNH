@@ -198,6 +198,11 @@ public class MainForm extends javax.swing.JFrame {
 
     private void btnThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThongTinActionPerformed
         // TODO add your handling code here:
+         TTNhaHang ttnhForm = new TTNhaHang();
+        ttnhForm.setVisible(true);
+
+        // Đóng JFrame "LoginUser" nếu bạn muốn
+        dispose();
 
     }//GEN-LAST:event_btnThongTinActionPerformed
 
