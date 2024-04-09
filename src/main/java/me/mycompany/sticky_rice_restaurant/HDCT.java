@@ -258,7 +258,7 @@ public class HDCT extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID Invoice ", "ID Food", "Food Name", "Quantity", "Price"
+                "ID Food", "Food Name", "Quantity", "Price"
             }
         ));
         tblBangHoaDon.setPreferredSize(new java.awt.Dimension(250, 80));
@@ -593,10 +593,9 @@ public class HDCT extends javax.swing.JFrame {
         try {
             Connection connection = DatabaseUtil.getConnection();
 
-            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, HOADON.MaHD, BAN_THUCDON.MaBan, BAN_THUCDON.SoLuong "
+            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, BAN_THUCDON.MaBan, BAN_THUCDON.SoLuong "
                     + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
                     + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
-                    + "JOIN HOADON ON BAN.MaBan = HOADON.MaBan "
                     + "WHERE BAN.MaBan = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, tableId);
@@ -604,7 +603,6 @@ public class HDCT extends javax.swing.JFrame {
 
             // Tạo một DefaultTableModel để chứa dữ liệu
             DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Invoice");
             model.addColumn("ID Food");
             model.addColumn("Food Name");
             model.addColumn("Quantity");
@@ -613,7 +611,6 @@ public class HDCT extends javax.swing.JFrame {
             // Đọc dữ liệu từ ResultSet và thêm vào model
             while (rs.next()) {
                 Vector row = new Vector();
-                row.add(rs.getNString("MaHD"));
                 row.add(rs.getNString("MaMon"));
                 row.add(rs.getNString("TenMon"));
                 row.add(rs.getInt("SoLuong"));
@@ -694,6 +691,30 @@ public class HDCT extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(HDCT.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
