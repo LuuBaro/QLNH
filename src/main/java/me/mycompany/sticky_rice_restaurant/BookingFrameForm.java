@@ -6,13 +6,19 @@ package me.mycompany.sticky_rice_restaurant;
 
 import java.io.File;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Vector;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 
 /**
  *
@@ -20,7 +26,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class BookingFrameForm extends javax.swing.JFrame {
 
-    DefaultTableModel modeBooking;
+
 
     /**
      * Creates new form BillFrameForm
@@ -28,89 +34,64 @@ public class BookingFrameForm extends javax.swing.JFrame {
     public BookingFrameForm() {
         initComponents();
         setLocationRelativeTo(null);
-
-        String[] headers = {"Mã KH", "Tên khách hàng", "Số ĐT", "Mã bàn", "Ngày", "Trả trước", "Ghi chú"};
-        String[][] data = {
-            {"KH01", "Nguyễn Văn A", "0123456789", "MB01", "01/01/2024", "Đã thanh toán", "Ghi chú 1"},
-            {"KH02", "Trần Thị B", "0123456790", "MB02", "02/01/2024", "Không", "Ghi chú 2"},
-            {"KH03", "Lê Văn C", "0123456791", "MB03", "03/01/2024", "Đã thanh toán", "Ghi chú 3"},
-            {"KH04", "Phạm Thị D", "0123456792", "MB04", "04/01/2024", "Không", "Ghi chú 4"},
-            {"KH05", "Ngô Văn E", "0123456793", "MB05", "05/01/2024", "Đã thanh toán", "Ghi chú 5"},
-            {"KH06", "Đặng Thị F", "0123456794", "MB06", "06/01/2024", "Không", "Ghi chú 6"},
-            {"KH07", "Vũ Văn G", "0123456795", "MB07", "07/01/2024", "Đã thanh toán", "Ghi chú 7"},
-            {"KH08", "Bùi Thị H", "0123456796", "MB08", "08/01/2024", "Không", "Ghi chú 8"},
-            {"KH09", "Hoàng Văn I", "0123456797", "MB09", "09/01/2024", "Đã thanh toán", "Ghi chú 9"},
-            {"KH10", "Lý Thị K", "0123456798", "MB10", "10/01/2024", "Không", "Ghi chú 10"}
-        };
-        modeBooking = new DefaultTableModel(data, headers);
-        tblBooking.setModel(modeBooking);
+        loadTable();
+     
     }
 
-    public boolean validateFrom() {
-        if (txtMaKH.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "chưa nhập mã khách hàng");
-            return false;
-        }
-        if (txtName.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "chưa nhập họ tên");
-            return false;
-        }
-        if (txtSoDT.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "chưa nhập số điện thoại");
-            return false;
-        }
 
-        String date = txtDate.getText();
-        if (txtDate.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "chưa nhập ngày đặt bàn");
-            return false;
-        } else {
+   private void loadTable() {
+        try {
+            Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+            String query = "SELECT * FROM KHACHHANG";
+            PreparedStatement statement = connection.prepareStatement(query);
+            ResultSet resultSet = statement.executeQuery();
 
-            try {
-                Date dateObject = DateUtil.parse(date);
-                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-                String strDate = formatter.format(dateObject);
-                txtDate.setText(strDate);
-            } catch (ParseException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Ngày phải ở định dang dd/MM/YYYY");
-                txtDate.requestFocus();
-                return false;
+            // Tạo một mảng chứa tên cột của bảng
+            String[] columns = {
+                "ID Table",
+                "ID Customer",
+                "Name",
+                "Number Phone",
+                "Date",
+                "Note"
+            };
+
+            // Tạo một DefaultTableModel với các cột đã chỉ định và 0 hàng
+            DefaultTableModel model = new DefaultTableModel(columns, 0);
+
+            // Đọc dữ liệu từ ResultSet và thêm vào model
+            while (resultSet.next()) {
+                // Lấy dữ liệu từ các cột trong ResultSet
+                String maKH = resultSet.getString("MaKH");
+                String tenKH = resultSet.getString("TenKH");
+                String soDT = resultSet.getString("SoDT");
+
+                String maBan = resultSet.getString("MaBan");
+                String ngayDat = resultSet.getString("NgayDat");
+                String ghiChu = resultSet.getString("GhiChu");
+
+                // Thêm dữ liệu vào một hàng mới của model
+                Object[] row = {maBan, maKH, tenKH, soDT, ngayDat, ghiChu};
+                model.addRow(row);
             }
+
+            // Đặt model cho bảng tblTable
+            tblBooking.setModel(model);
+        } catch (SQLException e) {
+            // Xử lý lỗi SQL
+            e.printStackTrace();
         }
-
-        if (txtGhiChu.getText()
-                .equals("")) {
-            JOptionPane.showMessageDialog(this, "chưa nhập ghi chú");
-            return false;
-        }
-
-        return true;
     }
-
-    private void clearForm() {
-        txtMaKH.setText("");
-        txtName.setText("");
-        txtSoDT.setText("");
-        cboMaban.setSelectedIndex(0);
-        txtDate.setText("");
-        grpTratruoc.clearSelection();
-        txtGhiChu.setText("");
-
-    }
-
-    private boolean isMaNVExist(String maNV) {
-        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
-        int rowCount = model.getRowCount();
-        for (int i = 0; i < rowCount; i++) {
-            String existingMaNV = model.getValueAt(i, 0).toString();
-            if (existingMaNV.equals(maNV)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+   
+   private boolean isMaBanValid(Connection connection, String maBan) throws SQLException {
+    String query = "SELECT COUNT(*) FROM BAN WHERE MaBan = ?";
+    PreparedStatement statement = connection.prepareStatement(query);
+    statement.setString(1, maBan);
+    ResultSet resultSet = statement.executeQuery();
+    resultSet.next();
+    int count = resultSet.getInt(1);
+    return count > 0;
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -142,16 +123,12 @@ public class BookingFrameForm extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtSoDT = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        cboMaban = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
         txtDate = new javax.swing.JTextField();
-        jLabel7 = new javax.swing.JLabel();
-        rdoChuaThanhToan = new javax.swing.JRadioButton();
-        rdoDaThanhToan = new javax.swing.JRadioButton();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtGhiChu = new javax.swing.JTextArea();
-        jTextField5 = new javax.swing.JTextField();
+        txtMaBan = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Booking");
@@ -323,15 +300,6 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
         jPanel3.add(jLabel4, gridBagConstraints);
 
-        cboMaban.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(cboMaban, gridBagConstraints);
-
         jLabel6.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(0, 51, 153));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -350,35 +318,6 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
         jPanel3.add(txtDate, gridBagConstraints);
-
-        jLabel7.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 51, 153));
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel7.setText("Prepay:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.insets = new java.awt.Insets(10, 10, 0, 20);
-        jPanel3.add(jLabel7, gridBagConstraints);
-
-        grpTratruoc.add(rdoChuaThanhToan);
-        rdoChuaThanhToan.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        rdoChuaThanhToan.setForeground(new java.awt.Color(0, 51, 153));
-        rdoChuaThanhToan.setText("Unpaid");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(rdoChuaThanhToan, gridBagConstraints);
-
-        grpTratruoc.add(rdoDaThanhToan);
-        rdoDaThanhToan.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        rdoDaThanhToan.setForeground(new java.awt.Color(0, 51, 153));
-        rdoDaThanhToan.setText("Completly payment");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 5;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(rdoDaThanhToan, gridBagConstraints);
 
         jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 51, 153));
@@ -407,7 +346,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weightx = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 10);
-        jPanel3.add(jTextField5, gridBagConstraints);
+        jPanel3.add(txtMaBan, gridBagConstraints);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.CENTER);
 
@@ -415,107 +354,230 @@ public class BookingFrameForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+      
 
-        String Booking = txtMaKH.getText().trim();
+try {
+       
+        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+       
+        String maKH = txtMaKH.getText().trim();
+        String tenKH = txtName.getText().trim();
+        String soDT = txtSoDT.getText().trim();
+        String maBan = txtMaBan.getText().trim();
+        String ngayDat = txtDate.getText().trim();
+        String ghiChu = txtGhiChu.getText().trim();
 
-        if (isMaNVExist(Booking)) {
-            JOptionPane.showMessageDialog(null, "Mã khách hàng đã tồn tại trong bảng!");
-            return; // Không thêm nếu mã nhân viên đã tồn tại
-        }
+     
+        if (isMaBanValid(connection, maBan)) {
+          
+            String query = "INSERT INTO KHACHHANG(MaKH, TenKH, SoDT, MaBan, NgayDat, GhiChu) VALUES (?,?,?,?,?,?)";
+            PreparedStatement statement = connection.prepareStatement(query);
 
-        Vector dataRow = new Vector();
-        dataRow.add(Booking);
-        dataRow.add(txtName.getText().trim());
-        dataRow.add(txtSoDT.getText().trim());
-        dataRow.add(cboMaban.getSelectedItem().toString().trim());
-        dataRow.add(txtDate.getText().trim());
-        String traTruoc;
-        if (rdoChuaThanhToan.isSelected()) {
-            traTruoc = "Không";
+            statement.setString(1, maKH);
+            statement.setString(2, tenKH);
+            statement.setString(3, soDT);
+            statement.setString(4, maBan);
+            statement.setString(5, ngayDat);
+            statement.setString(6, ghiChu);
+
+         
+            int rowsInserted = statement.executeUpdate();
+
+            if (rowsInserted > 0) {
+              
+                loadTable();
+                JOptionPane.showMessageDialog(null, "Customer added successfully.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
+            }
         } else {
-            traTruoc = "Đã thanh toán";
+            JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        dataRow.add(traTruoc);
 
-        dataRow.add(txtGhiChu.getText().trim());
-        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
-        model.addRow(dataRow);
+    } catch (SQLException e) {
+    
+        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } catch (Exception ex) {
+        
+        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+
+//try {
+//        // Get a database connection
+//        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+//        
+//        // Get data from text fields
+//        String maKH = txtMaKH.getText().trim();
+//        String tenKH = txtName.getText().trim();
+//        String soDT = txtSoDT.getText().trim();
+//        String maBan = txtMaBan.getText().trim();
+//        // Parse date using DateUtil
+//        String ngayDat = DateUtil.format(DateUtil.parse(txtDate.getText().trim()));
+//        String ghiChu = txtGhiChu.getText().trim();
+//
+//        // Prepare SQL query
+//        String query = "INSERT INTO KHACHHANG(MaKH, TenKH, SoDT, MaBan, NgayDat, GhiChu) VALUES (?,?,?,?,?,?)";
+//        PreparedStatement statement = connection.prepareStatement(query);
+//
+//        // Set parameters for the query
+//        statement.setString(1, maKH);
+//        statement.setString(2, tenKH);
+//        statement.setString(3, soDT);
+//        statement.setString(4, maBan);
+//        statement.setString(5, ngayDat);
+//        statement.setString(6, ghiChu);
+//
+//        // Execute the query
+//        int rowsInserted = statement.executeUpdate();
+//
+//        if (rowsInserted > 0) {
+//            // If the query is successful, reload the table
+//            loadTable();
+//            JOptionPane.showMessageDialog(null, "Customer added successfully.");
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
+//        }
+//
+//    } catch (SQLException e) {
+//        // Handle SQL exception
+//      System.out.println(e);
+//        e.printStackTrace();
+//    } catch (ParseException ex) {
+//        // Handle parse exception
+//       System.out.println(ex);
+//        ex.printStackTrace();
+//    } catch (Exception ex) {
+//        // Handle other exceptions
+//      System.out.println(ex);
+//        ex.printStackTrace();
+//    }
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblBookingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMouseClicked
         // TODO add your handling code here:
-        int selectedRow = tblBooking.getSelectedRow();
-        if (selectedRow >= 0) {
-            // Lấy thông tin từ hàng được chọn
-            String maKH = tblBooking.getValueAt(selectedRow, 0).toString();
-            String tenKH = tblBooking.getValueAt(selectedRow, 1).toString();
-            String soDT = tblBooking.getValueAt(selectedRow, 2).toString();
-            String maBan = tblBooking.getValueAt(selectedRow, 3).toString();
-            String ngay = tblBooking.getValueAt(selectedRow, 4).toString();
-            String traTruoc = tblBooking.getValueAt(selectedRow, 5).toString();
-            String ghiChu = tblBooking.getValueAt(selectedRow, 6).toString();
+         int selectedRow = tblBooking.getSelectedRow();
 
-            // Hiển thị thông tin trên các JTextField tương ứng
-            txtMaKH.setText(maKH);
-            txtName.setText(tenKH);
-            txtSoDT.setText(soDT);
-            cboMaban.setSelectedItem(ABORT);
-            txtDate.setText(ngay);
-            if (rdoDaThanhToan.isSelected()) {
+    // Ensure a row is selected and the event is a double-click
+    if (selectedRow != -1 && evt.getClickCount() == 2) {
+        // Get data from the selected row
+        String maBan = tblBooking.getValueAt(selectedRow, 0).toString();
+        String maKH = tblBooking.getValueAt(selectedRow, 1).toString();
+        String tenKH = tblBooking.getValueAt(selectedRow, 2).toString();
+        String soDT = tblBooking.getValueAt(selectedRow, 3).toString();
+        String ngayDat = tblBooking.getValueAt(selectedRow, 4).toString();
+        String ghiChu = tblBooking.getValueAt(selectedRow, 5).toString();
 
-            } else if (rdoChuaThanhToan.isSelected()) {
-
-            }
-            txtGhiChu.setText(ghiChu);
-        }
+        // Display the data in appropriate fields for editing
+        txtMaBan.setText(maBan);
+        txtMaKH.setText(maKH);
+        txtName.setText(tenKH);
+        txtSoDT.setText(soDT);
+        txtDate.setText(ngayDat);
+        txtGhiChu.setText(ghiChu);
+    }
+       
     }//GEN-LAST:event_tblBookingMouseClicked
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        // TODO add your handling code here:
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(null);
-
-        if (result == JFileChooser.APPROVE_OPTION) {
-            File fname = fileChooser.getSelectedFile();
-            try {
-                PrintWriter pw = new PrintWriter(fname);
-
-                pw.println(tblBooking.isShowing());
-                pw.close();;
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
+      
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-        int row = tblBooking.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(null, "Chưa chọn dòng nào trong bảng để thay đổi!");
-            return;
-        }
+         try {
+        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
 
-// Cập nhật dữ liệu cho dòng được chọn trong bảng "nhân viên"
-        modeBooking.setValueAt(txtMaKH.getText().trim(), row, 0);
-        modeBooking.setValueAt(txtName.getText().trim(), row, 1);
-        modeBooking.setValueAt(txtSoDT.getText().trim(), row, 2);
-        modeBooking.setValueAt(cboMaban.getSelectedItem().toString().trim(), row, 3);
-        modeBooking.setValueAt(txtDate.getText().trim(), row, 4);
-        String traTruoc = rdoChuaThanhToan.isSelected() ? "Không" : "Đã thanh toán";
-        modeBooking.setValueAt(traTruoc, row, 5);
-        modeBooking.setValueAt(txtGhiChu.getText().trim(), row, 6);
+        // Retrieve data from text fields
+        String maKH = txtMaKH.getText().trim();
+        String tenKH = txtName.getText().trim();
+        String soDT = txtSoDT.getText().trim();
+        String maBan = txtMaBan.getText().trim();
+        String ngayDat = txtDate.getText().trim();
+        String ghiChu = txtGhiChu.getText().trim();
+
+        // Validate MaBan
+        if (isMaBanValid(connection, maBan)) {
+            // Construct update query
+            String query = "UPDATE KHACHHANG SET TenKH = ?, SoDT = ?, NgayDat = ?, GhiChu = ? WHERE MaKH = ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+
+            statement.setString(1, tenKH);
+            statement.setString(2, soDT);
+            statement.setString(3, ngayDat);
+            statement.setString(4, ghiChu);
+            statement.setString(5, maKH);
+
+            // Execute update query
+            int rowsUpdated = statement.executeUpdate();
+
+            // Handle result
+            if (rowsUpdated > 0) {
+                loadTable(); // Optional: reload table data
+                JOptionPane.showMessageDialog(null, "Customer updated successfully.");
+            } else {
+                JOptionPane.showMessageDialog(null, "Failed to update customer. Please try again.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
+      
 
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row = tblBooking.getSelectedRow();
-        if (row < 0) {
-            JOptionPane.showMessageDialog(this, "Chưa chọn dòng nào để xóa");
-            return;
+       try {
+        // Get the selected row index
+        int selectedRow = tblBooking.getSelectedRow();
+        
+        // Ensure a row is selected
+        if (selectedRow != -1) {
+            // Get the MaKH of the selected row
+            String maKH = tblBooking.getValueAt(selectedRow, 1).toString();
+            
+            // Confirm deletion with a dialog box
+            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?", "Confirmation", JOptionPane.YES_NO_OPTION);
+            
+            // If user confirms deletion
+            if (dialogResult == JOptionPane.YES_OPTION) {
+                // Create connection
+                Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+                
+                // Construct delete query
+                String query = "DELETE FROM KHACHHANG WHERE MaKH=?";
+                PreparedStatement statement = connection.prepareStatement(query);
+                statement.setString(1, maKH);
+                
+                // Execute the delete query
+                int rowsDeleted = statement.executeUpdate();
+                
+                // Check if deletion was successful
+                if (rowsDeleted > 0) {
+                    loadTable(); // Reload table data
+                    JOptionPane.showMessageDialog(null, "Customer deleted successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to delete customer. Please try again.");
+                }
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Please select a customer to delete.", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        modeBooking.removeRow(row);
-        clearForm();
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        e.printStackTrace();
+    } catch (Exception ex) {
+        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace();
+    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
@@ -590,7 +652,6 @@ public class BookingFrameForm extends javax.swing.JFrame {
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cboMaban;
     private javax.swing.ButtonGroup grpTratruoc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -598,7 +659,6 @@ public class BookingFrameForm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -607,12 +667,10 @@ public class BookingFrameForm extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JRadioButton rdoChuaThanhToan;
-    private javax.swing.JRadioButton rdoDaThanhToan;
     private javax.swing.JTable tblBooking;
     private javax.swing.JTextField txtDate;
     private javax.swing.JTextArea txtGhiChu;
+    private javax.swing.JTextField txtMaBan;
     private javax.swing.JTextField txtMaKH;
     private javax.swing.JTextField txtName;
     private javax.swing.JTextField txtSoDT;

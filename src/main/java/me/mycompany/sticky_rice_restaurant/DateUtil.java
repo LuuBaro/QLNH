@@ -14,6 +14,7 @@ import java.util.Date;
  */
 public class DateUtil {
     
+    
     private static final String PATTERN = "dd/MM/yyyy";
 
     public static Date parse(String input) throws ParseException {

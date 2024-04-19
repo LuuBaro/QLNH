@@ -250,7 +250,7 @@ public class ThuDonFame extends javax.swing.JFrame {
         btnReturn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnReturn.setForeground(new java.awt.Color(0, 153, 153));
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/U Turn to Left1.png"))); // NOI18N
-        btnReturn.setText("Return");
+        btnReturn.setText("Back");
         btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReturnActionPerformed(evt);
@@ -387,7 +387,7 @@ public class ThuDonFame extends javax.swing.JFrame {
 
                 // Xóa dữ liệu từ cơ sở dữ liệu
                 Connection connection = DatabaseUtil.getConnection();
-                String query = "DELETE FROM THUCDON WHERE MaMon = ?";
+                String query = "DELETE FROM THUCDON WHERE MaMon = ?";                       
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, id);
                 statement.executeUpdate();

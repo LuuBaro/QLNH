@@ -34,9 +34,8 @@ public class TTNVFame extends javax.swing.JFrame {
         txtSoDT.setText("");
         txtDC.setText("");
         grpGT.clearSelection();
-        txtTK.setText("");
-        txtMK.setText("");
-        txtCV.setText("");
+        txtRoles.setText("");
+     
     }
 
     private boolean isMaNVExist(String maNV) {
@@ -84,6 +83,8 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         rdoMale = new javax.swing.JRadioButton();
         rdoFemale = new javax.swing.JRadioButton();
+        jLabel12 = new javax.swing.JLabel();
+        txtRoles = new javax.swing.JTextField();
         jPanel3 = new javax.swing.JPanel();
         btnAdd = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
@@ -93,26 +94,20 @@ public class TTNVFame extends javax.swing.JFrame {
         txtTim = new javax.swing.JTextField();
         btnSearch = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        txtTK = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        txtCV = new javax.swing.JTextField();
-        txtMK = new javax.swing.JTextField();
-        btnReturn = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
+        btnReturn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         tblNhanVien.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "MaNV", "Họ và Tên", "Ngày Sinh", "Số ĐT", "Địa chỉ", "Giới Tính", "Tài Khoản", "Mật Khẩu", "Chức vụ"
+                "ID", "Full Name", "Birthday", "Number Phone", "Address", "Gender", "Roles"
             }
         ));
         tblNhanVien.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -143,6 +138,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 153, 153));
         jLabel2.setText("ID Staff:");
         gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel2, gridBagConstraints);
@@ -156,6 +152,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel3.setText("User Name:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel3, gridBagConstraints);
@@ -170,6 +167,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel4.setText("Birthday:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel4, gridBagConstraints);
@@ -184,6 +182,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel5.setText("Phone number:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel5, gridBagConstraints);
@@ -198,6 +197,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel6.setText("Address:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel6, gridBagConstraints);
@@ -217,6 +217,7 @@ public class TTNVFame extends javax.swing.JFrame {
         jLabel7.setText("Gender:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
         gridBagConstraints.weighty = 1.0;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 0, 20);
         jPanel2.add(jLabel7, gridBagConstraints);
@@ -236,6 +237,20 @@ public class TTNVFame extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 5;
         jPanel2.add(rdoFemale, gridBagConstraints);
+
+        jLabel12.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(0, 153, 153));
+        jLabel12.setText("Roles:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.WEST;
+        jPanel2.add(jLabel12, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridy = 7;
+        gridBagConstraints.gridwidth = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 1.0;
+        jPanel2.add(txtRoles, gridBagConstraints);
 
         jPanel3.setLayout(new java.awt.GridLayout(1, 0, 5, 0));
 
@@ -299,60 +314,18 @@ public class TTNVFame extends javax.swing.JFrame {
 
         jPanel6.setLayout(new java.awt.GridBagLayout());
 
-        jLabel8.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel8.setText("Account:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.weighty = 1.0;
-        jPanel6.add(jLabel8, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel6.add(txtTK, gridBagConstraints);
-
-        jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel9.setText("Password:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.weighty = 1.0;
-        jPanel6.add(jLabel9, gridBagConstraints);
-
-        jLabel10.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 153, 153));
-        jLabel10.setText("Roles:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.weighty = 1.0;
-        jPanel6.add(jLabel10, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel6.add(txtCV, gridBagConstraints);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 1.0;
-        gridBagConstraints.insets = new java.awt.Insets(0, 5, 0, 0);
-        jPanel6.add(txtMK, gridBagConstraints);
+        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/z5279923910173_01e831fbf2dcc284657745aa27d93503.jpg"))); // NOI18N
+        jPanel6.add(jLabel11, new java.awt.GridBagConstraints());
 
         btnReturn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnReturn.setForeground(new java.awt.Color(0, 153, 153));
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/U Turn to Left1.png"))); // NOI18N
-        btnReturn.setText("Return");
+        btnReturn.setText("Back");
         btnReturn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnReturnActionPerformed(evt);
             }
         });
-
-        jLabel11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/z5279923910173_01e831fbf2dcc284657745aa27d93503.jpg"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -360,26 +333,20 @@ public class TTNVFame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 360, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnReturn))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 410, Short.MAX_VALUE)
+                            .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jLabel11))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 217, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnReturn)))))
+                            .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                            .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
@@ -391,11 +358,8 @@ public class TTNVFame extends javax.swing.JFrame {
                     .addComponent(btnReturn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)))
+                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -435,9 +399,7 @@ public class TTNVFame extends javax.swing.JFrame {
             gioiTinh = ""; // Xử lý trường hợp không chọn giới tính
         }
         dataRow.add(gioiTinh);
-        dataRow.add(txtTK.getText().trim());
-        dataRow.add(txtMK.getText().trim());
-        dataRow.add(txtCV.getText().trim());
+        dataRow.add(txtRoles.getText().trim());    
         DefaultTableModel model = (DefaultTableModel) tblNhanVien.getModel();
         model.addRow(dataRow);
     }//GEN-LAST:event_btnAddActionPerformed
@@ -461,9 +423,8 @@ public class TTNVFame extends javax.swing.JFrame {
             rdoFemale.setSelected(true);
         }
 
-        txtTK.setText(tblNhanVien.getValueAt(r, 6).toString());
-        txtMK.setText(tblNhanVien.getValueAt(r, 7).toString());
-        txtCV.setText(tblNhanVien.getValueAt(r, 8).toString());
+        txtRoles.setText(tblNhanVien.getValueAt(r, 6).toString());
+       
     }//GEN-LAST:event_tblNhanVienMouseClicked
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -483,9 +444,8 @@ public class TTNVFame extends javax.swing.JFrame {
         String gioiTinh = rdoMale.isSelected() ? "Nam" : "Nữ";
         modeNhanVien.setValueAt(gioiTinh, row, 5);
 
-        modeNhanVien.setValueAt(txtTK.getText().trim(), row, 6);
-        modeNhanVien.setValueAt(txtMK.getText().trim(), row, 7);
-        modeNhanVien.setValueAt(txtCV.getText().trim(), row, 8);
+        modeNhanVien.setValueAt(txtRoles.getText().trim(), row, 6);
+      
 
     }//GEN-LAST:event_btnEditActionPerformed
 
@@ -537,9 +497,8 @@ public class TTNVFame extends javax.swing.JFrame {
                 } else {
                     rdoFemale.setSelected(true);
                 }
-                txtTK.setText(modeNhanVien.getValueAt(i, 6).toString());
-                txtMK.setText(modeNhanVien.getValueAt(i, 7).toString());
-                txtCV.setText(modeNhanVien.getValueAt(i, 8).toString());
+                txtRoles.setText(modeNhanVien.getValueAt(i, 6).toString());
+              
                 return; // Kết thúc vòng lặp khi tìm thấy mã nhân viên
 
             }
@@ -605,16 +564,14 @@ public class TTNVFame extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private javax.swing.ButtonGroup grpGT;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -625,13 +582,11 @@ public class TTNVFame extends javax.swing.JFrame {
     private javax.swing.JRadioButton rdoFemale;
     private javax.swing.JRadioButton rdoMale;
     private javax.swing.JTable tblNhanVien;
-    private javax.swing.JTextField txtCV;
     private javax.swing.JTextArea txtDC;
-    private javax.swing.JTextField txtMK;
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JTextField txtNgSinh;
+    private javax.swing.JTextField txtRoles;
     private javax.swing.JTextField txtSoDT;
-    private javax.swing.JTextField txtTK;
     private javax.swing.JTextField txtTenNV;
     private javax.swing.JTextField txtTim;
     // End of variables declaration//GEN-END:variables

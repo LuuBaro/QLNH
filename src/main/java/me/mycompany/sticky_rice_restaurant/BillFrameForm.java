@@ -27,6 +27,7 @@ public class BillFrameForm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         fillComboBox();
+        loadTableID(cboIdTable);
 
     }
 
@@ -360,8 +361,33 @@ public class BillFrameForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_cboTenMonActionPerformed
 
+    private void loadTableID(JComboBox<String> cboIdTable){
+           try {
+          
+        // Kết nối với cơ sở dữ liệu SQL
+        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+        
+        // Truy vấn SQL để lấy tất cả các MaBan từ bảng BAN
+        String query = "SELECT MaBan FROM BAN";
+        PreparedStatement statement = connection.prepareStatement(query);
+        ResultSet resultSet = statement.executeQuery();
+        
+        // Xóa các mục cũ trong cboIdTable trước khi thêm mới
+        cboIdTable.removeAllItems();
+        
+        // Thêm MaBan từ kết quả truy vấn vào cboIdTable
+        while (resultSet.next()) {
+            String maBan = resultSet.getString("MaBan");
+            cboIdTable.addItem(maBan);
+        }
+    } catch (SQLException ex) {
+        // Xử lý lỗi SQL
+        ex.printStackTrace();
+    }
+    }
+  
     private void cboIdTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboIdTableActionPerformed
-        // TODO add your handling code here:
+       
 
     }//GEN-LAST:event_cboIdTableActionPerformed
 
