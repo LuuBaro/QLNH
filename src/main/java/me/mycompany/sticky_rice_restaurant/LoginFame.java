@@ -4,11 +4,13 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import me.mycompany.sticky_rice_restaurant.MainForm;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import me.mycompany.sticky_rice_restaurant.DatabaseUtil;
 
 /**
  *

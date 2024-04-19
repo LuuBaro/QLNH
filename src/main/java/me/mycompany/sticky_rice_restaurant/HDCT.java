@@ -4,7 +4,10 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
+import me.mycompany.sticky_rice_restaurant.MainForm;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +19,8 @@ import javax.swing.JComboBox;
 
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import me.mycompany.sticky_rice_restaurant.BillFrameForm;
+import me.mycompany.sticky_rice_restaurant.DatabaseUtil;
 
 /**
  *
@@ -33,7 +38,7 @@ public class HDCT extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         loadMaBanToComboBox();
-
+        InIDbang();
     }
 
     private void loadMaBanToComboBox() {
@@ -56,6 +61,18 @@ public class HDCT extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
+    
+    private void InIDbang(){
+        cboBanThuDon.addActionListener(new ActionListener() {
+    public void actionPerformed(ActionEvent e) {
+        // Lấy giá trị đã chọn từ ComboBox
+        String selectedValue = cboBanThuDon.getSelectedItem().toString();
+        
+        // Đặt giá trị đã chọn vào TextField
+        txtIDBang.setText(selectedValue);
+    }
+});
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -65,7 +82,6 @@ public class HDCT extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -146,6 +162,11 @@ public class HDCT extends javax.swing.JFrame {
         txtIDBang.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtIDBang.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         txtIDBang.setPreferredSize(new java.awt.Dimension(64, 30));
+        txtIDBang.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIDBangActionPerformed(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 153, 153));
@@ -419,7 +440,7 @@ public class HDCT extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBackActionPerformed
 
     private void btnPayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPayActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:         
         JOptionPane.showMessageDialog(this, "Payment successful!");
 
         // Xóa dữ liệu trong bảng
@@ -427,80 +448,100 @@ public class HDCT extends javax.swing.JFrame {
         model.setRowCount(0);
         // Xóa dữ liệu trong txtTongTien
         txtTongTien.setText("");
+        lblName.setText("");
+        lblDate.setText("");
+        lblPhone.setText("");
+        lblName.setText("");
+        lblID.setText("");
+        cboBanThuDon.setSelectedIndex(0);
         // Xóa dữ liệu trong txtGiamGia
         txtGiamGia.setText("");
+
     }//GEN-LAST:event_btnPayActionPerformed
 
     private void cboBanThuDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboBanThuDonActionPerformed
 
-//        try {
-//            
-//            // Lấy MaBan từ cboBanThucDon
-//             
-//            String maBan = cboBanThuDon.getSelectedItem().toString();
-//
-//            // Kết nối với cơ sở dữ liệu
-//            Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
-//
-//            // Truy vấn để lấy thông tin khách hàng từ bảng KHACHHANG dựa trên MaBan
-//            String khachHangQuery = "SELECT MaKH, TenKH, SoDT, NgayDat FROM KHACHHANG WHERE MaBan = ?";
-//            PreparedStatement khachHangStatement = connection.prepareStatement(khachHangQuery);
-//            khachHangStatement.setString(1, maBan);
-//            ResultSet khachHangResultSet = khachHangStatement.executeQuery();
-//
-//            // Hiển thị thông tin khách hàng trong các label
-//            if (khachHangResultSet.next()) {
-//                lblID.setText(khachHangResultSet.getString("MaKH"));
-//                lblName.setText(khachHangResultSet.getString("TenKH"));
-//                lblPhone.setText(khachHangResultSet.getString("SoDT"));
-//                lblDate.setText(khachHangResultSet.getString("NgayDat"));
-//            }
-//
-//            // Truy vấn để lấy thông tin món ăn từ bảng BAN_THUCDON và THUCDON dựa trên MaBan
-//            String monAnQuery = "SELECT BD.MaMon, TD.TenMon, BD.SoLuong, TD.GiaTien "
-//                    + "FROM BAN_THUCDON BD "
-//                    + "INNER JOIN THUCDON TD ON BD.MaMon = TD.MaMon "
-//                    + "WHERE BD.MaBan = ?";
-//            PreparedStatement monAnStatement = connection.prepareStatement(monAnQuery);
-//            monAnStatement.setString(1, maBan);
-//            ResultSet monAnResultSet = monAnStatement.executeQuery();
-//
-//            // Xóa các hàng cũ trong tblTable trước khi thêm mới
-//            DefaultTableModel model = (DefaultTableModel) tblBangHoaDon.getModel();
-//            model.setRowCount(0);
-//
-//            // Thêm thông tin món ăn vào tblTable và tính tổng tiền
-//            double tongTien = 0;
-//            while (monAnResultSet.next()) {
-//                String maMon = monAnResultSet.getString("MaMon");
-//                String tenMon = monAnResultSet.getString("TenMon");
-//                int soLuong = monAnResultSet.getInt("SoLuong");
-//                double giaTien = monAnResultSet.getDouble("GiaTien");
-//                double thanhTien = soLuong * giaTien;
-//                tongTien += thanhTien;
-//
-//                // Thêm dòng mới vào tblTable
-//                model.addRow(new Object[]{maMon, tenMon, soLuong, giaTien, thanhTien});
-//            }
-//
-//            // Hiển thị tổng tiền trong txtThanhTien
-//            txtTongTien.setText(String.valueOf(tongTien));
-//
-//            // Đóng kết nối và các tài nguyên
-//            khachHangResultSet.close();
-//            khachHangStatement.close();
-//            monAnResultSet.close();
-//            monAnStatement.close();
+        try {
+            // Kết nối với cơ sở dữ liệu SQL
+            Connection connection = DatabaseUtil.getConnection();
+
+            // Lấy MaBan từ combobox
+            String selectedMaBan = (String) cboBanThuDon.getSelectedItem();
+
+            // Truy vấn SQL để lấy thông tin từ bảng KHACHHANG và BAN_THUCDON
+            String queryKHACHHANG = "SELECT * FROM KHACHHANG WHERE MaBan = ?";
+            String queryBAN_THUCDON = "SELECT BT.MaMon, T.TenMon, BT.SoLuong, T.GiaTien "
+                    + "FROM BAN_THUCDON BT "
+                    + "INNER JOIN THUCDON T ON BT.MaMon = T.MaMon "
+                    + "WHERE BT.MaBan = ?";
+
+            // Lấy thông tin khách hàng từ bảng KHACHHANG
+            PreparedStatement statementKHACHHANG = connection.prepareStatement(queryKHACHHANG);
+            statementKHACHHANG.setString(1, selectedMaBan);
+            ResultSet resultSetKHACHHANG = statementKHACHHANG.executeQuery();
+
+            if (resultSetKHACHHANG.next()) {
+                // Hiển thị thông tin khách hàng trong các label
+                String maKH = resultSetKHACHHANG.getString("MaKH");
+                String tenKH = resultSetKHACHHANG.getString("TenKH");
+                String soDT = resultSetKHACHHANG.getString("SoDT");
+                String ngayDat = resultSetKHACHHANG.getString("NgayDat");
+
+                lblID.setText(maKH);
+                lblName.setText(tenKH);
+                lblPhone.setText(soDT);
+                lblDate.setText(ngayDat);
+
+            }
+
+            // Lấy thông tin món ăn từ bảng BAN_THUCDON
+            PreparedStatement statementBAN_THUCDON = connection.prepareStatement(queryBAN_THUCDON);
+            statementBAN_THUCDON.setString(1, selectedMaBan);
+            ResultSet resultSetBAN_THUCDON = statementBAN_THUCDON.executeQuery();
+
+            // Xóa toàn bộ dữ liệu hiện có trong bảng tblTable
+            DefaultTableModel model = (DefaultTableModel) tblBangHoaDon.getModel();
+            model.setRowCount(0);
+
+            // Thêm thông tin món ăn vào bảng tblTable
+            while (resultSetBAN_THUCDON.next()) {
+                String maMon = resultSetBAN_THUCDON.getString("MaMon");
+                String tenMon = resultSetBAN_THUCDON.getString("TenMon");
+                int soLuong = resultSetBAN_THUCDON.getInt("SoLuong");
+                double giaTien = resultSetBAN_THUCDON.getDouble("GiaTien");
+                double thanhTien = soLuong * giaTien;
+
+                // Thêm dữ liệu vào model của tblTable
+                model.addRow(new Object[]{maMon, tenMon, soLuong, giaTien});
+
+            }
+
+            // Tính tổng tiền và hiển thị lên textbox txtTongTien
+            double tongThanhTien = 0;
+            for (int i = 0; i < model.getRowCount(); i++) {
+                tongThanhTien += (double) model.getValueAt(i, 3);
+            }
+            txtTongTien.setText(String.valueOf(tongThanhTien));
+
+
+
+            // Đóng kết nối và các tài nguyên
+            resultSetKHACHHANG.close();
+            resultSetBAN_THUCDON.close();
+            statementKHACHHANG.close();
+            statementBAN_THUCDON.close();
 //            connection.close();
-//        } catch (SQLException ex) {
-//            // Xử lý lỗi SQL
-//            ex.printStackTrace();
-//        }
-       
+
+        } catch (SQLException ex) {
+            // Xử lý lỗi SQL
+            ex.printStackTrace();
+        }
 
     }//GEN-LAST:event_cboBanThuDonActionPerformed
 
-    
+    private void txtIDBangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDBangActionPerformed
+      
+    }//GEN-LAST:event_txtIDBangActionPerformed
 
     public void displayMenuForTable(String tableId) {
         // Thực hiện truy vấn SQL để lấy dữ liệu từ cơ sở dữ liệu dựa trên tableId
@@ -513,7 +554,6 @@ public class HDCT extends javax.swing.JFrame {
                     + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
                     + "WHERE BAN.MaBan = ?";
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, tableId);
             ResultSet rs = statement.executeQuery();
 
             // Tạo một DefaultTableModel để chứa dữ liệu
@@ -551,7 +591,7 @@ public class HDCT extends javax.swing.JFrame {
                     + "WHERE BAN.MaBan = ?";
 
             PreparedStatement statement = connection.prepareStatement(query);
-            statement.setString(1, tableId);
+
             ResultSet rs = statement.executeQuery();
 
             if (rs.next()) {

@@ -4,29 +4,18 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
-import java.io.File;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
-import java.util.Vector;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-
 
 /**
  *
  * @author WINDOWS
  */
 public class BookingFrameForm extends javax.swing.JFrame {
-
-
 
     /**
      * Creates new form BillFrameForm
@@ -35,11 +24,10 @@ public class BookingFrameForm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         loadTable();
-     
+
     }
 
-
-   private void loadTable() {
+    private void loadTable() {
         try {
             Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
             String query = "SELECT * FROM KHACHHANG";
@@ -48,10 +36,10 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
             // Tạo một mảng chứa tên cột của bảng
             String[] columns = {
-                "ID Table",
                 "ID Customer",
                 "Name",
-                "Number Phone",
+                "Phone number",
+                "ID Table",
                 "Date",
                 "Note"
             };
@@ -71,7 +59,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
                 String ghiChu = resultSet.getString("GhiChu");
 
                 // Thêm dữ liệu vào một hàng mới của model
-                Object[] row = {maBan, maKH, tenKH, soDT, ngayDat, ghiChu};
+                Object[] row = {maKH, tenKH ,soDT, maBan, ngayDat, ghiChu};
                 model.addRow(row);
             }
 
@@ -82,16 +70,17 @@ public class BookingFrameForm extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }
-   
-   private boolean isMaBanValid(Connection connection, String maBan) throws SQLException {
-    String query = "SELECT COUNT(*) FROM BAN WHERE MaBan = ?";
-    PreparedStatement statement = connection.prepareStatement(query);
-    statement.setString(1, maBan);
-    ResultSet resultSet = statement.executeQuery();
-    resultSet.next();
-    int count = resultSet.getInt(1);
-    return count > 0;
-}
+
+    private boolean isMaBanValid(Connection connection, String maBan) throws SQLException {
+        String query = "SELECT COUNT(*) FROM BAN WHERE MaBan = ?";
+        PreparedStatement statement = connection.prepareStatement(query);
+        statement.setString(1, maBan);
+        ResultSet resultSet = statement.executeQuery();
+        resultSet.next();
+        int count = resultSet.getInt(1);
+        return count > 0;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -217,7 +206,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         btnReturn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnReturn.setForeground(new java.awt.Color(0, 153, 153));
         btnReturn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/U Turn to Left1.png"))); // NOI18N
-        btnReturn.setText("Return");
+        btnReturn.setText("Back");
         btnReturn.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnReturn.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
         btnReturn.addActionListener(new java.awt.event.ActionListener() {
@@ -354,55 +343,52 @@ public class BookingFrameForm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-      
 
-try {
-       
-        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
-       
-        String maKH = txtMaKH.getText().trim();
-        String tenKH = txtName.getText().trim();
-        String soDT = txtSoDT.getText().trim();
-        String maBan = txtMaBan.getText().trim();
-        String ngayDat = txtDate.getText().trim();
-        String ghiChu = txtGhiChu.getText().trim();
+        try {
 
-     
-        if (isMaBanValid(connection, maBan)) {
-          
-            String query = "INSERT INTO KHACHHANG(MaKH, TenKH, SoDT, MaBan, NgayDat, GhiChu) VALUES (?,?,?,?,?,?)";
-            PreparedStatement statement = connection.prepareStatement(query);
+            Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
 
-            statement.setString(1, maKH);
-            statement.setString(2, tenKH);
-            statement.setString(3, soDT);
-            statement.setString(4, maBan);
-            statement.setString(5, ngayDat);
-            statement.setString(6, ghiChu);
+            String maKH = txtMaKH.getText().trim();
+            String tenKH = txtName.getText().trim();
+            String soDT = txtSoDT.getText().trim();
+            String maBan = txtMaBan.getText().trim();
+            String ngayDat = txtDate.getText().trim();
+            String ghiChu = txtGhiChu.getText().trim();
 
-         
-            int rowsInserted = statement.executeUpdate();
+            if (isMaBanValid(connection, maBan)) {
 
-            if (rowsInserted > 0) {
-              
-                loadTable();
-                JOptionPane.showMessageDialog(null, "Customer added successfully.");
+                String query = "INSERT INTO KHACHHANG(MaKH, TenKH, SoDT, MaBan, NgayDat, GhiChu) VALUES (?,?,?,?,?,?)";
+                PreparedStatement statement = connection.prepareStatement(query);
+
+                statement.setString(1, maKH);
+                statement.setString(2, tenKH);
+                statement.setString(3, soDT);
+                statement.setString(4, maBan);
+                statement.setString(5, ngayDat);
+                statement.setString(6, ghiChu);
+
+                int rowsInserted = statement.executeUpdate();
+
+                if (rowsInserted > 0) {
+
+                    loadTable();
+                    JOptionPane.showMessageDialog(null, "Customer added successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
+                JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
-    } catch (SQLException e) {
-    
-        JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    } catch (Exception ex) {
-        
-        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
+        } catch (SQLException e) {
+
+            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
+        }
 
 //try {
 //        // Get a database connection
@@ -458,126 +444,139 @@ try {
 
     private void tblBookingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMouseClicked
         // TODO add your handling code here:
-         int selectedRow = tblBooking.getSelectedRow();
+//         int selectedRow = tblBooking.getSelectedRow();
+//
+//    // Ensure a row is selected and the event is a double-click
+//    if (selectedRow != -1 && evt.getClickCount() == 2) {
+//        // Get data from the selected row
+//        String maBan = tblBooking.getValueAt(selectedRow, 2).toString();
+//        String maKH = tblBooking.getValueAt(selectedRow, 0).toString();
+//        String tenKH = tblBooking.getValueAt(selectedRow, 1).toString();
+//        String soDT = tblBooking.getValueAt(selectedRow, 3).toString();
+//        String ngayDat = tblBooking.getValueAt(selectedRow, 4).toString();       
+//        String ghiChu = tblBooking.getValueAt(selectedRow, 5).toString();
+//
+//        // Display the data in appropriate fields for editing
+//        txtMaBan.setText(maBan);
+//        txtMaKH.setText(maKH);
+//        txtName.setText(tenKH);
+//        txtSoDT.setText(soDT);
+//        txtDate.setText(ngayDat);
+//        txtGhiChu.setText(ghiChu);
+//    }
+        int selectedRow = tblBooking.getSelectedRow();
+        if (selectedRow < 0) {
+            return;
+        }
+        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
+        txtMaKH.setText(String.valueOf(model.getValueAt(selectedRow, 0)));
+        txtName.setText(String.valueOf(model.getValueAt(selectedRow, 1)));
+        txtSoDT.setText(String.valueOf(model.getValueAt(selectedRow, 2)));
+        txtMaBan.setText(String.valueOf(model.getValueAt(selectedRow, 3)));
+        txtDate.setText(String.valueOf(model.getValueAt(selectedRow, 4)));
+        txtGhiChu.setText(String.valueOf(model.getValueAt(selectedRow, 5)));
 
-    // Ensure a row is selected and the event is a double-click
-    if (selectedRow != -1 && evt.getClickCount() == 2) {
-        // Get data from the selected row
-        String maBan = tblBooking.getValueAt(selectedRow, 0).toString();
-        String maKH = tblBooking.getValueAt(selectedRow, 1).toString();
-        String tenKH = tblBooking.getValueAt(selectedRow, 2).toString();
-        String soDT = tblBooking.getValueAt(selectedRow, 3).toString();
-        String ngayDat = tblBooking.getValueAt(selectedRow, 4).toString();
-        String ghiChu = tblBooking.getValueAt(selectedRow, 5).toString();
 
-        // Display the data in appropriate fields for editing
-        txtMaBan.setText(maBan);
-        txtMaKH.setText(maKH);
-        txtName.setText(tenKH);
-        txtSoDT.setText(soDT);
-        txtDate.setText(ngayDat);
-        txtGhiChu.setText(ghiChu);
-    }
-       
     }//GEN-LAST:event_tblBookingMouseClicked
 
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-      
+
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-         try {
-        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+        try {
+            Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
 
-        // Retrieve data from text fields
-        String maKH = txtMaKH.getText().trim();
-        String tenKH = txtName.getText().trim();
-        String soDT = txtSoDT.getText().trim();
-        String maBan = txtMaBan.getText().trim();
-        String ngayDat = txtDate.getText().trim();
-        String ghiChu = txtGhiChu.getText().trim();
+            // Retrieve data from text fields
+            String maKH = txtMaKH.getText().trim();
+            String tenKH = txtName.getText().trim();
+            String soDT = txtSoDT.getText().trim();
+            String maBan = txtMaBan.getText().trim();
+            String ngayDat = txtDate.getText().trim();
+            String ghiChu = txtGhiChu.getText().trim();
 
-        // Validate MaBan
-        if (isMaBanValid(connection, maBan)) {
-            // Construct update query
-            String query = "UPDATE KHACHHANG SET TenKH = ?, SoDT = ?, NgayDat = ?, GhiChu = ? WHERE MaKH = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
+            // Validate MaBan
+            if (isMaBanValid(connection, maBan)) {
+                // Construct update query
+                String query = "UPDATE KHACHHANG SET TenKH = ?, SoDT = ?, MaBan = ? ,NgayDat = ?, GhiChu = ? WHERE MaKH = ?";
+                PreparedStatement statement = connection.prepareStatement(query);
 
-            statement.setString(1, tenKH);
-            statement.setString(2, soDT);
-            statement.setString(3, ngayDat);
-            statement.setString(4, ghiChu);
-            statement.setString(5, maKH);
+                statement.setString(1, tenKH);
+                statement.setString(2, soDT);
+                statement.setString(3, maBan);
+                statement.setString(4, ngayDat);
+                statement.setString(5, ghiChu);
+                statement.setString(6, maKH);
 
-            // Execute update query
-            int rowsUpdated = statement.executeUpdate();
+                // Execute update query
+                int rowsUpdated = statement.executeUpdate();
 
-            // Handle result
-            if (rowsUpdated > 0) {
-                loadTable(); // Optional: reload table data
-                JOptionPane.showMessageDialog(null, "Customer updated successfully.");
+                // Handle result
+                if (rowsUpdated > 0) {
+                    loadTable(); // Optional: reload table data
+                    JOptionPane.showMessageDialog(null, "Customer updated successfully.");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Failed to update customer. Please try again.");
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "Failed to update customer. Please try again.");
+                JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
-      
+
 
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-       try {
-        // Get the selected row index
-        int selectedRow = tblBooking.getSelectedRow();
-        
-        // Ensure a row is selected
-        if (selectedRow != -1) {
-            // Get the MaKH of the selected row
-            String maKH = tblBooking.getValueAt(selectedRow, 1).toString();
-            
-            // Confirm deletion with a dialog box
-            int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?", "Confirmation", JOptionPane.YES_NO_OPTION);
-            
-            // If user confirms deletion
-            if (dialogResult == JOptionPane.YES_OPTION) {
-                // Create connection
-                Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
-                
-                // Construct delete query
-                String query = "DELETE FROM KHACHHANG WHERE MaKH=?";
-                PreparedStatement statement = connection.prepareStatement(query);
-                statement.setString(1, maKH);
-                
-                // Execute the delete query
-                int rowsDeleted = statement.executeUpdate();
-                
-                // Check if deletion was successful
-                if (rowsDeleted > 0) {
-                    loadTable(); // Reload table data
-                    JOptionPane.showMessageDialog(null, "Customer deleted successfully.");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Failed to delete customer. Please try again.");
+        try {
+            // Get the selected row index
+            int selectedRow = tblBooking.getSelectedRow();
+
+            // Ensure a row is selected
+            if (selectedRow != -1) {
+                // Get the MaKH of the selected row
+                String maKH = tblBooking.getValueAt(selectedRow, 1).toString();
+
+                // Confirm deletion with a dialog box
+                int dialogResult = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this customer?", "Confirmation", JOptionPane.YES_NO_OPTION);
+
+                // If user confirms deletion
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    // Create connection
+                    Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
+
+                    // Construct delete query
+                    String query = "DELETE FROM KHACHHANG WHERE MaKH=?";
+                    PreparedStatement statement = connection.prepareStatement(query);
+                    statement.setString(1, maKH);
+
+                    // Execute the delete query
+                    int rowsDeleted = statement.executeUpdate();
+
+                    // Check if deletion was successful
+                    if (rowsDeleted > 0) {
+                        loadTable(); // Reload table data
+                        JOptionPane.showMessageDialog(null, "Customer deleted successfully.");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Failed to delete customer. Please try again.");
+                    }
                 }
+            } else {
+                JOptionPane.showMessageDialog(null, "Please select a customer to delete.", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else {
-            JOptionPane.showMessageDialog(null, "Please select a customer to delete.", "Error", JOptionPane.ERROR_MESSAGE);
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            ex.printStackTrace();
         }
-    } catch (SQLException e) {
-        JOptionPane.showMessageDialog(null, "SQL Error: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        e.printStackTrace();
-    } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace();
-    }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
