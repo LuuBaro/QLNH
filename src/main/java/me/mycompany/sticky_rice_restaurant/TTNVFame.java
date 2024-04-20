@@ -496,23 +496,11 @@ public class TTNVFame extends javax.swing.JFrame {
                 return;
             }
 
-            // Kiểm tra xem ID có bị trùng trong cơ sở dữ liệu không
-            PreparedStatement checkIdStatement = connection.prepareStatement("SELECT * FROM NHANVIEN WHERE MANV = ?");
-            checkIdStatement.setNString(1, manv);
-            ResultSet resultSet = checkIdStatement.executeQuery();
-            if (resultSet.next()) {
-                JOptionPane.showMessageDialog(this, "The ID already exists in the database.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Chuyển đổi định dạng ngày sinh
-            Date parsedNgsinh = DateUtil.parse(ngsinh);
-            String formattedNgsinh = DateUtil.format(parsedNgsinh);
 
             String query = "UPDATE NHANVIEN SET TenNV = ?, Ngaysinh = ?, SDT = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ?,Hinh = ? WHERE MANV = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setNString(1, tennv);
-            statement.setNString(2, formattedNgsinh);
+            statement.setNString(2, ngsinh);
             statement.setNString(3, sdt);
             statement.setNString(4, dc);
             statement.setBoolean(5, gender);
@@ -594,15 +582,12 @@ public class TTNVFame extends javax.swing.JFrame {
                 return;
             }
 
-            // Chuyển đổi định dạng ngày sinh
-            Date parsedNgsinh = DateUtil.parse(ngsinh);
-            String formattedNgsinh = DateUtil.format(parsedNgsinh);
 
             String query = "INSERT INTO NHANVIEN (MaNV,TenNV,Ngaysinh,SDT,DiaChi,GioiTinh,ChucVu,Hinh) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setNString(1, manv);
             statement.setNString(2, tennv);
-            statement.setNString(3, formattedNgsinh);
+            statement.setNString(3, ngsinh);
             statement.setNString(4, sdt);
             statement.setNString(5, dc);
             statement.setBoolean(6, gender);
