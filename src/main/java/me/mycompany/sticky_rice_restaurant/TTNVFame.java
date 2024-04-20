@@ -6,11 +6,10 @@ package me.mycompany.sticky_rice_restaurant;
 
 import java.awt.Image;
 import java.io.File;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Vector;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -21,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
  * @author ACER
  */
 public class TTNVFame extends javax.swing.JFrame {
+
     private String currentFilePath = "";
 
     /**
@@ -64,8 +64,7 @@ public class TTNVFame extends javax.swing.JFrame {
                     resultSet.getNString("DiaChi"),
                     resultSet.getBoolean("GioiTinh") ? rdoMale.getText() : rdoFemale.getText(),
                     resultSet.getNString("ChucVu"),
-                    resultSet.getNString("Hinh"),
-                };
+                    resultSet.getNString("Hinh"),};
                 model.addRow(row);
                 hasRow = true;
             }
@@ -91,7 +90,7 @@ public class TTNVFame extends javax.swing.JFrame {
         tblNhanVien.clearSelection();
         currentFilePath = "";
     }
-    
+
     private void setImageLabel(String imagePath) {
         if (!imagePath.isEmpty()) { // Kiểm tra đường dẫn không trống
             // Tạo ImageIcon từ đường dẫn hình ảnh
@@ -105,7 +104,7 @@ public class TTNVFame extends javax.swing.JFrame {
                 // Đặt ImageIcon vào label
                 tblHinh.setIcon(icon);
             } else {
-                System.err.println("Không thể tạo hình ảnh từ đường dẫn: " + imagePath);
+                JOptionPane.showMessageDialog(this, "Cannot create image from path: " + imagePath, "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -465,7 +464,7 @@ public class TTNVFame extends javax.swing.JFrame {
             rdoFemale.setSelected(true);
         }
         txtCV.setText(String.valueOf(model.getValueAt(selectedRow, 6)));
-        
+
         String ImagePath = String.valueOf(tblNhanVien.getValueAt(selectedRow, 7));
 
         setImageLabel(ImagePath); // gọi hàm chỉnh hình ảnh label
@@ -475,7 +474,6 @@ public class TTNVFame extends javax.swing.JFrame {
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
         // TODO add your handling code here:
-
         try {
             Connection connection = DatabaseUtil.getConnection();
             String manv = txtMaNV.getText();
@@ -486,10 +484,35 @@ public class TTNVFame extends javax.swing.JFrame {
             String cv = txtCV.getText();
             boolean gender = rdoMale.isSelected();
 
+            // Kiểm tra xem các trường có bị bỏ trống không
+            if (manv.isEmpty() || tennv.isEmpty() || ngsinh.isEmpty() || sdt.isEmpty() || dc.isEmpty() || cv.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem số điện thoại có hợp lệ không
+            if (!sdt.matches("^0\\d{9}$")) {
+                JOptionPane.showMessageDialog(this, "Phone number must start with 0 and have 10 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem ID có bị trùng trong cơ sở dữ liệu không
+            PreparedStatement checkIdStatement = connection.prepareStatement("SELECT * FROM NHANVIEN WHERE MANV = ?");
+            checkIdStatement.setNString(1, manv);
+            ResultSet resultSet = checkIdStatement.executeQuery();
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "The ID already exists in the database.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Chuyển đổi định dạng ngày sinh
+            Date parsedNgsinh = DateUtil.parse(ngsinh);
+            String formattedNgsinh = DateUtil.format(parsedNgsinh);
+
             String query = "UPDATE NHANVIEN SET TenNV = ?, Ngaysinh = ?, SDT = ?, DiaChi = ?, GioiTinh = ?, ChucVu = ?,Hinh = ? WHERE MANV = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setNString(1, tennv);
-            statement.setNString(2, ngsinh);
+            statement.setNString(2, formattedNgsinh);
             statement.setNString(3, sdt);
             statement.setNString(4, dc);
             statement.setBoolean(5, gender);
@@ -499,7 +522,7 @@ public class TTNVFame extends javax.swing.JFrame {
 
             int rowsAffected = statement.executeUpdate();
             if (rowsAffected > 0) {
-                System.out.println("Dữ liệu đã được cập nhật thành công.");
+                JOptionPane.showMessageDialog(this, "The data has been updated successfully.");
                 loadTable(); // Gọi hàm loadTable() để làm mới bảng
                 clearForm(); // Gọi hàm clearForm() để xóa trắng các trường nhập liệu
             } else {
@@ -507,9 +530,9 @@ public class TTNVFame extends javax.swing.JFrame {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            // Đóng các tài nguyên nếu cần thiết
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
+
     }//GEN-LAST:event_btnEditActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -550,11 +573,36 @@ public class TTNVFame extends javax.swing.JFrame {
             String cv = txtCV.getText();
             boolean gender = rdoMale.isSelected();
 
+            // Kiểm tra xem các trường có bị bỏ trống không
+            if (manv.isEmpty() || tennv.isEmpty() || ngsinh.isEmpty() || sdt.isEmpty() || dc.isEmpty() || cv.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem số điện thoại có hợp lệ không
+            if (!sdt.matches("^0\\d{9}$")) {
+                JOptionPane.showMessageDialog(this, "Phone number must start with 0 and have 10 digits.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem ID có bị trùng trong cơ sở dữ liệu không
+            PreparedStatement checkIdStatement = connection.prepareStatement("SELECT * FROM NHANVIEN WHERE MaNV = ?");
+            checkIdStatement.setNString(1, manv);
+            ResultSet resultSet = checkIdStatement.executeQuery();
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(this, "The ID already exists in the database.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Chuyển đổi định dạng ngày sinh
+            Date parsedNgsinh = DateUtil.parse(ngsinh);
+            String formattedNgsinh = DateUtil.format(parsedNgsinh);
+
             String query = "INSERT INTO NHANVIEN (MaNV,TenNV,Ngaysinh,SDT,DiaChi,GioiTinh,ChucVu,Hinh) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setNString(1, manv);
             statement.setNString(2, tennv);
-            statement.setNString(3, ngsinh);
+            statement.setNString(3, formattedNgsinh);
             statement.setNString(4, sdt);
             statement.setNString(5, dc);
             statement.setBoolean(6, gender);
@@ -566,6 +614,7 @@ public class TTNVFame extends javax.swing.JFrame {
             clearForm();
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "An error occurred: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
 
     }//GEN-LAST:event_btnSaveActionPerformed
@@ -595,7 +644,7 @@ public class TTNVFame extends javax.swing.JFrame {
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
         // TODO add your handling code here:
-         MainForm thuDonForm = new MainForm();
+        MainForm thuDonForm = new MainForm();
         thuDonForm.setVisible(true);
 
         // Đóng JFrame "LoginUser" nếu bạn muốn

@@ -4,13 +4,11 @@
  */
 package me.mycompany.sticky_rice_restaurant;
 
-import me.mycompany.sticky_rice_restaurant.MainForm;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
-import me.mycompany.sticky_rice_restaurant.DatabaseUtil;
 
 /**
  *
@@ -24,10 +22,6 @@ public class LoginFame extends javax.swing.JFrame {
     public LoginFame() {
         initComponents();
         setLocationRelativeTo(null);
-    }
-
-    public void loadTable() {
-
     }
 
     /**
@@ -47,6 +41,7 @@ public class LoginFame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         txtPass = new javax.swing.JPasswordField();
+        jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -69,7 +64,7 @@ public class LoginFame extends javax.swing.JFrame {
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel2.add(txtUser, gridBagConstraints);
 
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Password.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Password1.png"))); // NOI18N
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 1;
         gridBagConstraints.weighty = 1.0;
@@ -96,8 +91,12 @@ public class LoginFame extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 10);
         jPanel2.add(txtPass, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 1;
+        jPanel2.add(jLabel4, gridBagConstraints);
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 260, 200, 190));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 260, 240, 190));
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/hinhLogin.jpg"))); // NOI18N
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 710, -1));
@@ -121,42 +120,54 @@ public class LoginFame extends javax.swing.JFrame {
         String username = txtUser.getText().trim();
         String password = new String(txtPass.getPassword());
 
-// Kiểm tra xem có bất kỳ ô nào trống không
-        if (username.isEmpty() || password.isEmpty()) {
+        // Kiểm tra xem có bất kỳ ô nào trống không
+        if (username.isEmpty() && password.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Please enter your account and password");
-            
-        }else if(username.isEmpty()){
-             JOptionPane.showMessageDialog(this, "Please enter account");
-            
-        }else if(password.isEmpty()){
-              JOptionPane.showMessageDialog(this, "Please enter password");
-        } else if (!username.equalsIgnoreCase("admin")) { // Kiểm tra xem user có phải là "admin" không
-            JOptionPane.showMessageDialog(this, "Invalid account name");
-        } else if (!password.equals("123")) { // Kiểm tra xem password có là "123" không
-            JOptionPane.showMessageDialog(this, "Invalid password");
-        } else if (!username.matches("[a-zA-Z]+")) { // Kiểm tra xem username có chỉ chứa chữ cái không
+            return;
+        } else if (username.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter account");
+            return;
+        } else if (password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter password");
+            return;
+        }
+
+        // Kiểm tra xem username có chỉ chứa chữ cái không
+        if (!username.matches("[a-zA-Z]+")) {
             JOptionPane.showMessageDialog(this, "Account names cannot contain special characters or numbers");
-        } else {
-            try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM TAIKHOAN WHERE TenTK=? AND MatKhauTK=?")) {
+            return;
+        }
 
-                statement.setString(1, username);
-                statement.setString(2, password);
+        // Kiểm tra xem user có phải là "admin" không
+        if (!username.equalsIgnoreCase("admin")) {
+            JOptionPane.showMessageDialog(this, "Invalid account name");
+            return;
+        }
 
-                try (ResultSet resultSet = statement.executeQuery()) {
-                    if (resultSet.next()) {
-                        // Thực hiện các hành động sau khi đăng nhập thành công
-                        MainForm login = new MainForm();
-                        login.setVisible(true);
+        // Kiểm tra xem password có là "123" không
+        if (!password.equals("123")) {
+            JOptionPane.showMessageDialog(this, "Invalid password");
+            return;
+        }
 
-                        // Đóng JFrame "LoginUser" nếu bạn muốn
-                        dispose();
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Sai username hoặc password");
-                    }
+        try (Connection connection = DatabaseUtil.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM TAIKHOAN WHERE TenTK=? AND MatKhauTK=?")) {
+
+            statement.setString(1, username);
+            statement.setString(2, password);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Thực hiện các hành động sau khi đăng nhập thành công
+                    MainForm login = new MainForm();
+                    login.setVisible(true);
+
+                    dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Invalid username or password");
                 }
-            } catch (SQLException ex) {
-                ex.printStackTrace();
             }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -200,6 +211,7 @@ public class LoginFame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPasswordField txtPass;
