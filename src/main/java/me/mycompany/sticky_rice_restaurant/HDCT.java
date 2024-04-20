@@ -519,7 +519,6 @@ public class HDCT extends javax.swing.JFrame {
             for (int i = 0; i < model.getRowCount(); i++) {
                 tongThanhTien += (double) model.getValueAt(i, 3);
             }
-            txtTongTien.setText(String.valueOf(tongThanhTien));
 
             String discountStr = txtGiamGia.getText().trim();
             double newTotal = tongThanhTien;
@@ -532,11 +531,11 @@ public class HDCT extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null, "Discount must be between 0 and 100");
                         return;
                     }
+                    newTotal = tongThanhTien * (1 - discount / 100.0);
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(null, "Invalid discount number");
                     return;
                 }
-                newTotal = tongThanhTien * (1 - discount / 100.0);
             }
 
             txtTongTien.setText(String.valueOf(newTotal));
