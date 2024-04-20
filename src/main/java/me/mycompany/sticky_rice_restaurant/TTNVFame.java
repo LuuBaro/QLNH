@@ -295,7 +295,7 @@ public class TTNVFame extends javax.swing.JFrame {
 
         btnAdd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnAdd.setForeground(new java.awt.Color(0, 153, 153));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Add New1.png"))); // NOI18N
+        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Refresh1.png"))); // NOI18N
         btnAdd.setText("New");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -378,6 +378,7 @@ public class TTNVFame extends javax.swing.JFrame {
             }
         });
 
+        tblHinh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tblHinh.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/z5279923910173_01e831fbf2dcc284657745aa27d93503.jpg"))); // NOI18N
         tblHinh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {

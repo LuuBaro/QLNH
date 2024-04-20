@@ -354,19 +354,35 @@ public class ThuDonFame extends javax.swing.JFrame {
     }//GEN-LAST:event_tblTableMouseClicked
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        // TODO add your handling code here:
+
         try {
             Connection connection = DatabaseUtil.getConnection();
             String mamon = txtMaMA.getText();
             String tenmon = txtTenMA.getText();
             String giatien = txtGT.getText();
 
+            // Kiểm tra trường không được bỏ trống
+            if (mamon.isEmpty() || tenmon.isEmpty() || giatien.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please complete all information.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return; // Dừng việc thêm dữ liệu nếu có trường bị bỏ trống
+            }
+
+            // Kiểm tra trùng ID Food
+            String checkQuery = "SELECT * FROM THUCDON WHERE MaMon=?";
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+            checkStatement.setString(1, mamon);
+            ResultSet resultSet = checkStatement.executeQuery();
+            if (resultSet.next()) {
+                JOptionPane.showMessageDialog(null, "ID Food already exists.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                return; // Dừng việc thêm dữ liệu nếu ID Food đã tồn tại
+            }
+
+            // Thêm dữ liệu vào cơ sở dữ liệu
             String query = "INSERT INTO THUCDON(MaMon, TenMon, GiaTien) VALUES (?,?,?)";
             PreparedStatement statement = connection.prepareStatement(query);
-
-            statement.setNString(1, mamon);
-            statement.setNString(2, tenmon);
-            statement.setNString(3, giatien);
+            statement.setString(1, mamon);
+            statement.setString(2, tenmon);
+            statement.setString(3, giatien);
 
             statement.executeUpdate();
             loadTable();
@@ -387,7 +403,7 @@ public class ThuDonFame extends javax.swing.JFrame {
 
                 // Xóa dữ liệu từ cơ sở dữ liệu
                 Connection connection = DatabaseUtil.getConnection();
-                String query = "DELETE FROM THUCDON WHERE MaMon = ?";                       
+                String query = "DELETE FROM THUCDON WHERE MaMon = ?";
                 PreparedStatement statement = connection.prepareStatement(query);
                 statement.setString(1, id);
                 statement.executeUpdate();
@@ -437,37 +453,37 @@ public class ThuDonFame extends javax.swing.JFrame {
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         // TODO add your handling code here:
- String searchTerm = txtTim.getText();
-    try {
-        Connection connection = DatabaseUtil.getConnection();
-        String query = "SELECT * FROM THUCDON WHERE TenMon LIKE ?";
-        PreparedStatement statement = connection.prepareStatement(query);
-        statement.setString(1, "%" + searchTerm + "%"); // Tìm kiếm món ăn có tên chứa chuỗi nhập vào
+        String searchTerm = txtTim.getText();
+        try {
+            Connection connection = DatabaseUtil.getConnection();
+            String query = "SELECT * FROM THUCDON WHERE TenMon LIKE ?";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setString(1, "%" + searchTerm + "%"); // Tìm kiếm món ăn có tên chứa chuỗi nhập vào
 
-        ResultSet resultSet = statement.executeQuery();
-        DefaultTableModel model = (DefaultTableModel) tblTable.getModel();
-        model.setRowCount(0); // Xóa tất cả các hàng trong bảng
+            ResultSet resultSet = statement.executeQuery();
+            DefaultTableModel model = (DefaultTableModel) tblTable.getModel();
+            model.setRowCount(0); // Xóa tất cả các hàng trong bảng
 
-        while (resultSet.next()) {
-            Object[] row = {
-                resultSet.getString("MaMon"),
-                resultSet.getString("TenMon"),
-                resultSet.getFloat("GiaTien")
-            };
-            model.addRow(row);
+            while (resultSet.next()) {
+                Object[] row = {
+                    resultSet.getString("MaMon"),
+                    resultSet.getString("TenMon"),
+                    resultSet.getFloat("GiaTien")
+                };
+                model.addRow(row);
+            }
+
+            // Nếu không có kết quả nào được tìm thấy, hiển thị thông báo
+            if (model.getRowCount() == 0) {
+                JOptionPane.showMessageDialog(this, "No matching dishes found.");
+            }
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        // Nếu không có kết quả nào được tìm thấy, hiển thị thông báo
-        if (model.getRowCount() == 0) {
-            JOptionPane.showMessageDialog(this, "No matching dishes found.");
-        }
-
-        resultSet.close();
-        statement.close();
-        connection.close();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
     }//GEN-LAST:event_btnSearchActionPerformed
 
     private void btnReturnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReturnActionPerformed
