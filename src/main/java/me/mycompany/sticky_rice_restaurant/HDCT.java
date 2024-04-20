@@ -61,17 +61,17 @@ public class HDCT extends javax.swing.JFrame {
             ex.printStackTrace();
         }
     }
-    
-    private void InIDbang(){
+
+    private void InIDbang() {
         cboBanThuDon.addActionListener(new ActionListener() {
-    public void actionPerformed(ActionEvent e) {
-        // Lấy giá trị đã chọn từ ComboBox
-        String selectedValue = cboBanThuDon.getSelectedItem().toString();
-        
-        // Đặt giá trị đã chọn vào TextField
-        txtIDBang.setText(selectedValue);
-    }
-});
+            public void actionPerformed(ActionEvent e) {
+                // Lấy giá trị đã chọn từ ComboBox
+                String selectedValue = cboBanThuDon.getSelectedItem().toString();
+
+                // Đặt giá trị đã chọn vào TextField
+                txtIDBang.setText(selectedValue);
+            }
+        });
     }
 
     /**
@@ -138,7 +138,7 @@ public class HDCT extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(82, 82, 82)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 252, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 275, Short.MAX_VALUE)
                 .addComponent(lblClock)
                 .addGap(20, 20, 20))
         );
@@ -253,7 +253,7 @@ public class HDCT extends javax.swing.JFrame {
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(txtIDBang, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -285,7 +285,7 @@ public class HDCT extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnPay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(37, 37, 37)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnPrint, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnBack, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -363,15 +363,15 @@ public class HDCT extends javax.swing.JFrame {
                 .addComponent(lblID)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel8)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblName)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel10)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblPhone)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel12)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblDate)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -392,7 +392,7 @@ public class HDCT extends javax.swing.JFrame {
                     .addComponent(jLabel12)
                     .addComponent(lblDate))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -418,7 +418,7 @@ public class HDCT extends javax.swing.JFrame {
 
     private void txtGiamGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtGiamGiaActionPerformed
         // TODO add your handling code here:
-        totalPrice(currentTableId);
+
     }//GEN-LAST:event_txtGiamGiaActionPerformed
 
     private void btnHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHomeActionPerformed
@@ -491,7 +491,6 @@ public class HDCT extends javax.swing.JFrame {
                 lblName.setText(tenKH);
                 lblPhone.setText(soDT);
                 lblDate.setText(ngayDat);
-
             }
 
             // Lấy thông tin món ăn từ bảng BAN_THUCDON
@@ -513,7 +512,6 @@ public class HDCT extends javax.swing.JFrame {
 
                 // Thêm dữ liệu vào model của tblTable
                 model.addRow(new Object[]{maMon, tenMon, soLuong, giaTien});
-
             }
 
             // Tính tổng tiền và hiển thị lên textbox txtTongTien
@@ -523,7 +521,25 @@ public class HDCT extends javax.swing.JFrame {
             }
             txtTongTien.setText(String.valueOf(tongThanhTien));
 
+            String discountStr = txtGiamGia.getText().trim();
+            double newTotal = tongThanhTien;
 
+            if (!discountStr.isEmpty()) {
+                int discount = 0;
+                try {
+                    discount = Integer.parseInt(discountStr);
+                    if (discount < 0 || discount > 100) {
+                        JOptionPane.showMessageDialog(null, "Discount must be between 0 and 100");
+                        return;
+                    }
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(null, "Invalid discount number");
+                    return;
+                }
+                newTotal = tongThanhTien * (1 - discount / 100.0);
+            }
+
+            txtTongTien.setText(String.valueOf(newTotal));
 
             // Đóng kết nối và các tài nguyên
             resultSetKHACHHANG.close();
@@ -533,93 +549,14 @@ public class HDCT extends javax.swing.JFrame {
 //            connection.close();
 
         } catch (SQLException ex) {
-            // Xử lý lỗi SQL
             ex.printStackTrace();
         }
 
     }//GEN-LAST:event_cboBanThuDonActionPerformed
 
     private void txtIDBangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDBangActionPerformed
-      
+
     }//GEN-LAST:event_txtIDBangActionPerformed
-
-    public void displayMenuForTable(String tableId) {
-        // Thực hiện truy vấn SQL để lấy dữ liệu từ cơ sở dữ liệu dựa trên tableId
-        // Và hiển thị dữ liệu đó lên giao diện
-        try {
-            Connection connection = DatabaseUtil.getConnection();
-
-            String query = "SELECT THUCDON.MaMon, THUCDON.TenMon, THUCDON.GiaTien, BAN_THUCDON.MaBan, BAN_THUCDON.SoLuong "
-                    + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
-                    + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
-                    + "WHERE BAN.MaBan = ?";
-            PreparedStatement statement = connection.prepareStatement(query);
-            ResultSet rs = statement.executeQuery();
-
-            // Tạo một DefaultTableModel để chứa dữ liệu
-            DefaultTableModel model = new DefaultTableModel();
-            model.addColumn("ID Food");
-            model.addColumn("Food Name");
-            model.addColumn("Quantity");
-            model.addColumn("Price");
-
-            // Đọc dữ liệu từ ResultSet và thêm vào model
-            while (rs.next()) {
-                Vector row = new Vector();
-                row.add(rs.getNString("MaMon"));
-                row.add(rs.getNString("TenMon"));
-                row.add(rs.getInt("SoLuong"));
-                row.add(rs.getFloat("GiaTien"));
-                model.addRow(row);
-            }
-
-            // Đặt model cho tblBangHoaDon
-            tblBangHoaDon.setModel(model);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public void totalPrice(String tableId) {
-        try {
-            Connection connection = DatabaseUtil.getConnection();
-
-            String query = "SELECT SUM(THUCDON.GiaTien * BAN_THUCDON.SoLuong) AS Total "
-                    + "FROM THUCDON JOIN BAN_THUCDON ON THUCDON.MaMon = BAN_THUCDON.MaMon "
-                    + "JOIN BAN ON BAN_THUCDON.MaBan = BAN.MaBan "
-                    + "JOIN HOADON ON BAN.MaBan = HOADON.MaBan "
-                    + "WHERE BAN.MaBan = ?";
-
-            PreparedStatement statement = connection.prepareStatement(query);
-
-            ResultSet rs = statement.executeQuery();
-
-            if (rs.next()) {
-                float total = rs.getFloat("Total");
-                String discountText = txtGiamGia.getText();
-                if (!discountText.isEmpty()) {
-                    float discountPercent = Float.parseFloat(discountText);
-                    total = calculateDiscountedPrice(total, discountPercent);
-                }
-                txtTongTien.setText(String.valueOf(total));
-            }
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-    }
-
-    public float calculateDiscountedPrice(float total, float discountPercent) {
-        // Kiểm tra xem phần trăm giảm có hợp lệ không
-
-        if (discountPercent < 0 || discountPercent > 100) {
-            throw new IllegalArgumentException("The discount percentage must be between 0 and 100.");
-        }
-
-        // Tính giá tiền sau khi đã giảm
-        float discountedPrice = total * (1 - discountPercent / 100);
-
-        return discountedPrice;
-    }
 
     /**
      * @param args the command line arguments
