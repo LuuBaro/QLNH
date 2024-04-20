@@ -59,7 +59,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
                 String ghiChu = resultSet.getString("GhiChu");
 
                 // Thêm dữ liệu vào một hàng mới của model
-                Object[] row = {maKH, tenKH ,soDT, maBan, ngayDat, ghiChu};
+                Object[] row = {maKH, tenKH, soDT, maBan, ngayDat, ghiChu};
                 model.addRow(row);
             }
 
@@ -97,7 +97,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         tblBooking = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        btnAdd = new javax.swing.JButton();
+        btnNew = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnEdit = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
@@ -127,10 +127,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         tblBooking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -151,18 +148,18 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
-        btnAdd.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        btnAdd.setForeground(new java.awt.Color(0, 153, 153));
-        btnAdd.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Add New1.png"))); // NOI18N
-        btnAdd.setText("Add");
-        btnAdd.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        btnAdd.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+        btnNew.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        btnNew.setForeground(new java.awt.Color(0, 153, 153));
+        btnNew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/Add New1.png"))); // NOI18N
+        btnNew.setText("New");
+        btnNew.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnNew.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddActionPerformed(evt);
+                btnNewActionPerformed(evt);
             }
         });
-        jPanel4.add(btnAdd);
+        jPanel4.add(btnNew);
 
         btnSave.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         btnSave.setForeground(new java.awt.Color(0, 153, 153));
@@ -227,7 +224,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
 
         getContentPane().add(jPanel2, java.awt.BorderLayout.LINE_END);
 
-        jPanel3.setBackground(new java.awt.Color(255, 255, 204));
+        jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -265,7 +262,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(0, 51, 153));
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel3.setText("Phone number:");
+        jLabel3.setText("Phone Number:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -282,7 +279,7 @@ public class BookingFrameForm extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 51, 153));
         jLabel4.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        jLabel4.setText("ID table");
+        jLabel4.setText("ID Table:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridy = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
@@ -342,10 +339,34 @@ public class BookingFrameForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+    private void btnNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewActionPerformed
+        txtMaKH.setText("");
+        txtName.setText("");
+        txtSoDT.setText("");
+        txtMaBan.setText("");
+        txtDate.setText("");
+        txtGhiChu.setText("");
+    }//GEN-LAST:event_btnNewActionPerformed
 
+    private void tblBookingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMouseClicked
+
+        int selectedRow = tblBooking.getSelectedRow();
+        if (selectedRow < 0) {
+            return;
+        }
+        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
+        txtMaKH.setText(String.valueOf(model.getValueAt(selectedRow, 0)));
+        txtName.setText(String.valueOf(model.getValueAt(selectedRow, 1)));
+        txtSoDT.setText(String.valueOf(model.getValueAt(selectedRow, 2)));
+        txtMaBan.setText(String.valueOf(model.getValueAt(selectedRow, 3)));
+        txtDate.setText(String.valueOf(model.getValueAt(selectedRow, 4)));
+        txtGhiChu.setText(String.valueOf(model.getValueAt(selectedRow, 5)));
+
+
+    }//GEN-LAST:event_tblBookingMouseClicked
+
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         try {
-
             Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
 
             String maKH = txtMaKH.getText().trim();
@@ -354,6 +375,28 @@ public class BookingFrameForm extends javax.swing.JFrame {
             String maBan = txtMaBan.getText().trim();
             String ngayDat = txtDate.getText().trim();
             String ghiChu = txtGhiChu.getText().trim();
+
+            // Kiểm tra xem ID khách hàng có tồn tại trong cơ sở dữ liệu không
+            String queryCheckMaKH = "SELECT * FROM KHACHHANG WHERE MaKH = ?";
+            PreparedStatement statementCheckMaKH = connection.prepareStatement(queryCheckMaKH);
+            statementCheckMaKH.setString(1, maKH);
+            ResultSet resultSetCheckMaKH = statementCheckMaKH.executeQuery();
+            if (resultSetCheckMaKH.next()) {
+                JOptionPane.showMessageDialog(null, "ID customer already exists. Please enter a new MaKH.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem các trường có bỏ trống không
+            if (maKH.isEmpty() || tenKH.isEmpty() || soDT.isEmpty() || maBan.isEmpty() || ngayDat.isEmpty() || ghiChu.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "All fields must be filled out.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Kiểm tra xem số điện thoại có hợp lệ không (10 số và bắt đầu bằng số 0)
+            if (!soDT.matches("0\\d{9}")) {
+                JOptionPane.showMessageDialog(null, "Invalid phone number. It must be 10 digits and start with 0.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
 
             if (isMaBanValid(connection, maBan)) {
 
@@ -377,110 +420,16 @@ public class BookingFrameForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
                 }
             } else {
-                JOptionPane.showMessageDialog(null, "Invalid MaBan. Please enter a valid MaBan.", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Invalid ID Table. Please enter a valid ID Table.", "Error", JOptionPane.ERROR_MESSAGE);
             }
 
         } catch (SQLException e) {
-
             JOptionPane.showMessageDialog(null, "Error: " + e.getMessage(), "SQL Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         } catch (Exception ex) {
-
             JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             ex.printStackTrace();
         }
-
-//try {
-//        // Get a database connection
-//        Connection connection = me.mycompany.sticky_rice_restaurant.DatabaseUtil.getConnection();
-//        
-//        // Get data from text fields
-//        String maKH = txtMaKH.getText().trim();
-//        String tenKH = txtName.getText().trim();
-//        String soDT = txtSoDT.getText().trim();
-//        String maBan = txtMaBan.getText().trim();
-//        // Parse date using DateUtil
-//        String ngayDat = DateUtil.format(DateUtil.parse(txtDate.getText().trim()));
-//        String ghiChu = txtGhiChu.getText().trim();
-//
-//        // Prepare SQL query
-//        String query = "INSERT INTO KHACHHANG(MaKH, TenKH, SoDT, MaBan, NgayDat, GhiChu) VALUES (?,?,?,?,?,?)";
-//        PreparedStatement statement = connection.prepareStatement(query);
-//
-//        // Set parameters for the query
-//        statement.setString(1, maKH);
-//        statement.setString(2, tenKH);
-//        statement.setString(3, soDT);
-//        statement.setString(4, maBan);
-//        statement.setString(5, ngayDat);
-//        statement.setString(6, ghiChu);
-//
-//        // Execute the query
-//        int rowsInserted = statement.executeUpdate();
-//
-//        if (rowsInserted > 0) {
-//            // If the query is successful, reload the table
-//            loadTable();
-//            JOptionPane.showMessageDialog(null, "Customer added successfully.");
-//        } else {
-//            JOptionPane.showMessageDialog(null, "Failed to add customer. Please try again.");
-//        }
-//
-//    } catch (SQLException e) {
-//        // Handle SQL exception
-//      System.out.println(e);
-//        e.printStackTrace();
-//    } catch (ParseException ex) {
-//        // Handle parse exception
-//       System.out.println(ex);
-//        ex.printStackTrace();
-//    } catch (Exception ex) {
-//        // Handle other exceptions
-//      System.out.println(ex);
-//        ex.printStackTrace();
-//    }
-
-    }//GEN-LAST:event_btnAddActionPerformed
-
-    private void tblBookingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBookingMouseClicked
-        // TODO add your handling code here:
-//         int selectedRow = tblBooking.getSelectedRow();
-//
-//    // Ensure a row is selected and the event is a double-click
-//    if (selectedRow != -1 && evt.getClickCount() == 2) {
-//        // Get data from the selected row
-//        String maBan = tblBooking.getValueAt(selectedRow, 2).toString();
-//        String maKH = tblBooking.getValueAt(selectedRow, 0).toString();
-//        String tenKH = tblBooking.getValueAt(selectedRow, 1).toString();
-//        String soDT = tblBooking.getValueAt(selectedRow, 3).toString();
-//        String ngayDat = tblBooking.getValueAt(selectedRow, 4).toString();       
-//        String ghiChu = tblBooking.getValueAt(selectedRow, 5).toString();
-//
-//        // Display the data in appropriate fields for editing
-//        txtMaBan.setText(maBan);
-//        txtMaKH.setText(maKH);
-//        txtName.setText(tenKH);
-//        txtSoDT.setText(soDT);
-//        txtDate.setText(ngayDat);
-//        txtGhiChu.setText(ghiChu);
-//    }
-        int selectedRow = tblBooking.getSelectedRow();
-        if (selectedRow < 0) {
-            return;
-        }
-        DefaultTableModel model = (DefaultTableModel) tblBooking.getModel();
-        txtMaKH.setText(String.valueOf(model.getValueAt(selectedRow, 0)));
-        txtName.setText(String.valueOf(model.getValueAt(selectedRow, 1)));
-        txtSoDT.setText(String.valueOf(model.getValueAt(selectedRow, 2)));
-        txtMaBan.setText(String.valueOf(model.getValueAt(selectedRow, 3)));
-        txtDate.setText(String.valueOf(model.getValueAt(selectedRow, 4)));
-        txtGhiChu.setText(String.valueOf(model.getValueAt(selectedRow, 5)));
-
-
-    }//GEN-LAST:event_tblBookingMouseClicked
-
-    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-
     }//GEN-LAST:event_btnSaveActionPerformed
 
     private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditActionPerformed
@@ -646,9 +595,9 @@ public class BookingFrameForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
+    private javax.swing.JButton btnNew;
     private javax.swing.JButton btnReturn;
     private javax.swing.JButton btnSave;
     private javax.swing.ButtonGroup grpTratruoc;
